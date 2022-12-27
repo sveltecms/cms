@@ -7,7 +7,7 @@
             color:var(--linkColor);
         }
         .ce-code__textarea {
-            min-height: fit-content;
+            min-height: fit-content !important;
         }
         .cdx-block{
             background-color: var(--bg);

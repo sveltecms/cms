@@ -1,24 +1,18 @@
-/** Object data for objects inside route:posts */
-export type PostsObjectData = {
+/** Object data for objects inside route:blogPosts */
+export type BlogPostsObjectData = {
     title:string
     slug:string
     views:number
-    seoTitle:string
-    seoDescription:string
     content:any
+    thumbnail:{
+        _id:string
+        name:string
+        path:string
+        type:string
+        extension:string
+    }
     createdAt:number
-    image:{
-        _id:string
-        name:string
-        path:string
-        type:string
-        extension:string
-    }
-    backupImage:{
-        _id:string
-        name:string
-        path:string
-        type:string
-        extension:string
-    }
+    updatedAt:number
+    seoTitle:string
+    seoDesc:string
 }
