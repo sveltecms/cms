@@ -1,0 +1,27 @@
+{
+    "version": "0.0.1",
+    "type": "module",
+    "bin": "./index.js",
+    "name": "sveltejscms",
+    "files": [
+        "./build"
+    ],
+    "repository": {
+        "url": "https://github.com/sveltecms/cms"
+    },
+    "homepage": "https://sveltecms.dev",
+    "description": "Add svelteCMS to your svelte kit project.",
+    "main": "./index.js",
+    "keywords": [
+        "svelte",
+        "sveltekit",
+        "cms"
+    ],
+    "author": "anthony809",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt": "^5.1.0",
+        "inquirer": "^9.1.4",
+        "mongodb": "^4.12.0"
+    }
+}

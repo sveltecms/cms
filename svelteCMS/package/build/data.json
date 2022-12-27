@@ -1,0 +1,22 @@
+{
+    "dependencies": {
+        "bcrypt": "^5.1.0",
+        "mongodb": "^4.13.0",
+        "slugify": "^1.6.5"
+    },
+    "devDependencies": {
+        "sass": "^1.57.0"
+    },
+    "alias": {
+        "$svelteCMS": "src/admin/svelteCMS.ts",
+        "$Cms": "src/admin/cms/cms.server.ts",
+        "$Utilities": "src/admin/utilities",
+        "$Stores": "src/admin/stores.ts",
+        "$Database": "src/admin/db/mongo.server.ts",
+        "$Types": "src/admin/types",
+        "$Comps": "src/admin/components/",
+        "$Elements": "src/admin/elements/",
+        "$Icons": "src/admin/icons/",
+        "$Packages": "src/admin/packages/"
+    }
+}
