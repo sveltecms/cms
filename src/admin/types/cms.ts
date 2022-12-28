@@ -87,3 +87,23 @@ export interface FetchTagsLoad {
 }
 /** Data returned from fetching tags */
 export type FetchTagsRes = TagData[]
+
+/** Object to create cookie */
+export type CookieSessionData = {
+    /** Token / Session */
+    t:string
+    /** User id / MongoID */
+    u:string
+}
+
+/** Data needed to login user */
+export type AuthLoginLoad = {
+    email:string
+    password:string
+}
+
+/** Response from login api endpoint */
+export type ApiAuthLoginData = {
+    ok:boolean
+    msg:string
+}

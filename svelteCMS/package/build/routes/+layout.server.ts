@@ -7,14 +7,14 @@ import { writeFileSync } from "fs"
 import type { RouteData } from "$Types"
 import type { LayoutServerLoad } from "./$types"
 
-export const load:LayoutServerLoad = async()=>{
+export const load:LayoutServerLoad = async({locals})=>{
     const routes = await cms.Fetch.routes({ filter:{},count:svelteCMS.config.routesPerPage })
     // Set server stores
     ROUTES.set(routes)
     // Auto generate types on dev mode
     if(isDevMode && routes.length>0) makeRoutesTypes(routes)
     // Return objects
-    return { routes:routes } 
+    return { routes:routes,user:locals.user } 
 }
  
 /** Auto make types for object */
@@ -34,7 +34,7 @@ function makeRoutesTypes(routes:RouteData[]){
         objectsTypes+=`${objectType}\n\n`
     }
     // Save types
-    const typePath = `${process.cwd()}/src/admin/types/dynamically/objects.ts`
+    const typePath = `${process.cwd()}/src/admin/types/dynamically.ts`
     const typeData = objectsTypes.trimEnd()
     writeFileSync(typePath,typeData)
 }

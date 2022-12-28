@@ -7,11 +7,19 @@ import { execSync } from "child_process";
 const CWD = process.cwd()
 const BUILD_PATH = `${CWD}/svelteCMS/package/build`
 const CMS_DATA_PATH = `${BUILD_PATH}/.svelteCMS`
-const ASSETS_PATH = `${CMS_DATA_PATH}/assets`
 /** Needed dependencies */
 const NEEDED_D = [ "bcrypt","mongodb","slugify" ]
 /** Needed dev dependencies */
 const NEEDED_D_D = [ "sass" ]
+
+/** Copy svelteCMS.js file to build folder */
+function copySvelteCMSFile(){
+    const svelteCMSPath = `${CWD}/src/admin/svelteCMS.ts`
+    const buildSvelteCMSPath = `${BUILD_PATH}/svelteCMS.js`
+    const svelteCMSData = fs.readFileSync(svelteCMSPath).toString()
+    const newSvelteCMSData = svelteCMSData.replace(/import type/g,'// import type').replace(/:\w.*=+/g,' =')
+    fs.writeFileSync(buildSvelteCMSPath,newSvelteCMSData)
+}
 
 /** Delete and recreate build folder */
 function mkBuild(){
@@ -20,6 +28,8 @@ function mkBuild(){
     if(isBuild) fs.rmdirSync(BUILD_PATH,{recursive:true})
     // Create build folder
     fs.mkdirSync(BUILD_PATH)
+    // Create files folder
+    fs.mkdirSync(`${BUILD_PATH}/files`)
 }
 
 /** Copy admin,images(static) and admin routes folders */
@@ -30,6 +40,8 @@ function copyNeededFolders(){
     execSync(`cp -a ${CWD}/src/routes/admin/ ${BUILD_PATH}/routes`)
     // copy admin static folder
     execSync(`cp -a ${CWD}/static/admin/ ${BUILD_PATH}/images`)
+    // copy auth folder
+    execSync(`cp -a ${CWD}/src/routes/auth/ ${BUILD_PATH}/auth`)
 }
 
 /** Create data.json to save needed data */
@@ -54,14 +66,16 @@ function createNeededJsonData(){
     fs.writeFileSync(dataJsonPath,JSON.stringify(dataJson,null,4))
 }
 
-/** Copy svelteCMS.js file to build folder */
-function copySvelteCMSFile(){
-    const svelteCMSPath = `${CWD}/src/admin/svelteCMS.ts`
-    const buildSvelteCMSPath = `${BUILD_PATH}/svelteCMS.js`
-    const svelteCMSData = fs.readFileSync(svelteCMSPath).toString()
-    const newSvelteCMSData = svelteCMSData.replace(/import type/g,'// import type').replace(/:\w.*=+/g,' =')
-    fs.writeFileSync(buildSvelteCMSPath,newSvelteCMSData)
-
+function copySingleFiles(){
+    const hooksFilePath = `${CWD}/src/hooks.server.ts`
+    const appDPath = `${CWD}/src/app.d.ts`
+    const hooksFileData = fs.readFileSync(hooksFilePath).toString()
+    const appDData = fs.readFileSync(appDPath).toString()
+    // Save files
+    const newHooksFilePath = `${BUILD_PATH}/files/hooks.server.ts`
+    const newAppDData = `${BUILD_PATH}/files/app.d.ts`
+    fs.writeFileSync(newHooksFilePath,hooksFileData)
+    fs.writeFileSync(newAppDData,appDData)
 }
 
 async function Main(){
@@ -69,5 +83,6 @@ async function Main(){
     copyNeededFolders()
     createNeededJsonData()
     copySvelteCMSFile()
+    copySingleFiles()
 }
 Main()

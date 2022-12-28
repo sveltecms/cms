@@ -1,6 +1,5 @@
 import { writable, type Writable } from "svelte/store";
-import type { RouteData, UserData } from "$Types"
-import type { AssetData } from "$Packages/fileUploader/types";
+import type { RouteData, UserData, AssetData} from "$Types"
 
 /** Is nav open when browsing mobiles or not  */
 export const IS_NAV_OPEN:Writable<boolean> = writable(false)
@@ -16,3 +15,6 @@ export const USERS:Writable<UserData[]> = writable([])
 
 /** Previously url (go back path) */
 export const PREV_PATH:Writable<string> = writable("/admin")
+
+/** Current logged on user */
+export const USER:Writable<UserData|null> = writable(null)

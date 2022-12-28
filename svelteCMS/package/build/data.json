@@ -12,7 +12,7 @@
         "$Cms": "src/admin/cms/cms.server.ts",
         "$Utilities": "src/admin/utilities",
         "$Stores": "src/admin/stores.ts",
-        "$Database": "src/admin/db/mongo.server.ts",
+        "$Database": "src/admin/db.server.ts",
         "$Types": "src/admin/types",
         "$Comps": "src/admin/components/",
         "$Elements": "src/admin/elements/",

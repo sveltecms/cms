@@ -1,6 +1,7 @@
 <script lang="ts">
     export let title:string
     export let href:string
+    export let disabledPreload:boolean = false
     export let linkText:string = "ADD"
     export let icon:any = null
     /** Show go back link */
@@ -11,17 +12,32 @@
 
 <div class="title">
     {#if goBackSrc}
-        <a href={goBackSrc} data-sveltekit-preload-data data-label="Go back" data-label-right class="goBack">
-            <GoBackIcon />
-        </a>
+        {#if disabledPreload}
+            <a href={goBackSrc} data-label="Go back" data-label-right class="goBack">
+                <GoBackIcon />
+            </a>
+        {:else}
+            <a href={goBackSrc} data-sveltekit-preload-data data-label="Go back" data-label-right class="goBack">
+                <GoBackIcon />
+            </a>
+        {/if}
     {/if}
     <h2>{title}</h2>
-    <a {href} class="link" data-sveltekit-preload-data>
-        {linkText}
-        {#if icon}
-            <div class="icon"><svelte:component this={icon}/></div>
-        {/if}
-    </a>
+    {#if disabledPreload}
+        <a {href} class="link">
+            {linkText}
+            {#if icon}
+                <div class="icon"><svelte:component this={icon}/></div>
+            {/if}
+        </a>
+    {:else}
+        <a {href} class="link" data-sveltekit-preload-data>
+            {linkText}
+            {#if icon}
+                <div class="icon"><svelte:component this={icon}/></div>
+            {/if}
+        </a>
+    {/if}
 </div>
 
 <style>

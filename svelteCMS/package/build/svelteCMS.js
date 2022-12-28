@@ -17,13 +17,15 @@ export const defaultAsset = {
 }
 
 export const defaultUser = {
+    _id: "000000000000000000000000",
     firstName: "cms",
     lastName: "root",
     email: "root@sveltecms.dev",
     password: "",
     image: {...defaultAsset,_id:defaultAsset['_id'].toString()},
     verified: false,
-    role: "root"
+    role: "root",
+    sessions:{ }
 }
 
 /** All information about svelteCMS */
@@ -60,6 +62,7 @@ export default {
     collections:{
         /** Assets linked to element,categories and other */
         assets:"__assets",
+        sessions:"__sessions",
         users:"__users",
         routes:"__routes",
         linkedAssets:"__linked_assets",

@@ -1,10 +1,13 @@
 <script lang="ts">
-    import PageTitle from "$Comps/PageTitle.svelte";
+    import PageTitleLink from "$Comps/PageTitleLink.svelte";
     import ToggleSwitch from "$Comps/ToggleSwitch.svelte";
     import Setting from "$Comps/settings/Setting.svelte";
+    import { page } from "$app/stores";
+    import type { UserData } from "$Types";
+    let user:UserData = $page.data.user
 </script>
 
-<PageTitle title="Project settings"/>
+<PageTitleLink title={user.firstName} href="/auth/logout" linkText="Logout" disabledPreload={true}/>
 <Setting text="Soon to be added">
     <ToggleSwitch checked={false} />
 </Setting>
