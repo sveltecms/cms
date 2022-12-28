@@ -5,7 +5,7 @@
     import type { LayoutServerData } from "./$types"
     // Other
     import { beforeNavigate } from "$app/navigation";
-    import { PREV_PATH, ROUTES } from "$Stores"
+    import { PREV_PATH, ROUTES, USER } from "$Stores"
     // Packages
     import Toasts from "$Packages/svelteToasts/Toasts.svelte";
     // Components

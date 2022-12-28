@@ -1,4 +1,5 @@
 // @ts-check
+import bcrypt from "bcrypt"
 import svelteCMS, { defaultAsset, defaultUser } from "./svelteCMS.js";
 import { pagesRouteData,postsRouteData } from "./defaults.js"
 import fs from "fs"
@@ -53,7 +54,7 @@ async function dropMainDatabase(){
 
 /** Create need default data for svelteCMS */
 async function createDefaultData(){
-    await usersCollection.insertOne(defaultUser)
+    await usersCollection.insertOne({ ...defaultUser,_id:new ObjectId(defaultAsset._id),password: await bcrypt.hash("sveltecms",10)})
     await assetsCollection.insertOne({...defaultAsset,_id:new ObjectId(defaultAsset._id)})
 }
 

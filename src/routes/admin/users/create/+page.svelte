@@ -2,7 +2,7 @@
     const API_PATH = "/admin/api/users"
     let userData:UserLoad = {
         firstName: "",lastName: "",email: "",password: "",
-        image:svelteCMS.defaults.asset, role: "user", verified:true
+        image:svelteCMS.defaults.asset, role: "user", verified:true, sessions:{}
     }
     let passwordConfirm:string = ""
     let isFileUploaderOpen:boolean = false

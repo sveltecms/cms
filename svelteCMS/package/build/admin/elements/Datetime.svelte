@@ -2,10 +2,13 @@
     /** Datetime numeric, bind:value to variable number */
     export let value:number
     const date = new Date(value)
-    const defaultValue = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}T${date.getHours()}:${date.getMinutes()}`
+    const day = date.getDate() <= 9 ? `0${date.getDate()}` : date.getDate()
+    const hour = date.getHours() <= 9 ? `0${date.getHours()}` : date.getHours()
+    const minute = date.getMinutes() <= 9 ? `0${date.getMinutes()}` : date.getMinutes()
+    const defaultValue = `${date.getFullYear()}-${date.getMonth()+1}-${day}T${hour}:${minute}`
     /** Update date and time when datetime input changes */
     function updateDate(e:any){
-        value = e.target.valueAsNumber
+        value = new Date(e.target.value).getTime()
     }
 </script>
 
