@@ -229,6 +229,9 @@ async function Main(){
         // Run npm install
         console.log("Running npm install, please wait") ; execSync("npm install")
         console.log(colorMe.green("svelteCMS was installed"))
+        if(NEW_INSTALL){
+            console.log(colorMe.green(`Default root user info:\n    email:root@sveltecms.dev\n    password:${ROOT_PASSWORD}`))
+        }
     }
 }
 Main()
