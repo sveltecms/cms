@@ -18,7 +18,7 @@ export const handle:Handle = async({ event, resolve })=> {
         }
     }
     // Else if session do not exists in cookie, redirect to login page
-    else if(pathname!=="/auth"){
+    else if(pathname!=="/auth" && pathname!=="/"){
         throw redirect(302,"/auth")
     }
     const response = await resolve(event);

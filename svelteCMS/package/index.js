@@ -207,17 +207,28 @@ function handleSingleFiles(){
 
 async function Main(){
     const passedSimpleChecks = await simpleChecks()
-    console.log(passedSimpleChecks)
-    if(passedSimpleChecks && await createDefaultDatabaseData()){
-        mkCmsDataFolder()
-        copyAdminFolders() 
-        HandleDotEnv() 
-        handleDependencies()
-        handleAlias()
-        handleSingleFiles()
+    if(passedSimpleChecks){
+        if(NEW_INSTALL){
+            const dbPassed = await createDefaultDatabaseData()
+            if(dbPassed){
+                mkCmsDataFolder()
+                copyAdminFolders() 
+                HandleDotEnv() 
+                handleDependencies()
+                handleAlias()
+                handleSingleFiles()
+            }
+        }else{
+            mkCmsDataFolder()
+            copyAdminFolders() 
+            HandleDotEnv() 
+            handleDependencies()
+            handleAlias()
+            handleSingleFiles()
+        }
         // Run npm install
         console.log("Running npm install, please wait") ; execSync("npm install")
-        console.log("Done, run: npm run dev")
+        console.log(colorMe.green("svelteCMS was installed"))
     }
 }
 Main()
