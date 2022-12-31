@@ -9,17 +9,19 @@ export const handle:Handle = async({ event, resolve })=> {
     if(session){
         const auth = await cms.Auth.isAuth(JSON.parse(session!),event.request)
         if(auth){
+            // If user is not an admin or root user, redirect home page
+            if(auth.role==="user" && pathname!=="/admin/auth/logout" && pathname.startsWith("/admin") ) throw redirect(302,"/")
             const user = auth ; user['_id']=user['_id'].toString()
             event.locals.user = auth
         }
-        const isAuthAndPathAuth = !auth && pathname!=="/auth" && pathname!=="/"
-        if(isAuthAndPathAuth){
-            throw redirect(302,"/auth")
+        // Redirect to login page
+        else if(pathname!=="/admin/auth" && pathname!=="/"){
+            throw redirect(302,"/admin/auth")
         }
     }
     // Else if session do not exists in cookie, redirect to login page
-    else if(pathname!=="/auth" && pathname!=="/"){
-        throw redirect(302,"/auth")
+    else if(pathname!=="/admin/auth" && pathname!=="/"){
+        throw redirect(302,"/admin/auth")
     }
     const response = await resolve(event);
     return response;

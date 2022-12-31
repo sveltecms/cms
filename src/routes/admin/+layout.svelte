@@ -1,6 +1,6 @@
 <script lang="ts">
     export let data:LayoutServerData
-    import "../../admin/layout.css"
+    import "$StaticFiles/layout.css"
     // Types
     import type { LayoutServerData } from "./$types"
     // Other
@@ -19,7 +19,7 @@
     beforeNavigate(()=>PREV_PATH.set(location.pathname))
 </script>
 
-{#if true}
+{#if data.user}
     <Toasts />
     <Meta />
     <div class="app">
@@ -33,7 +33,7 @@
         </div>
     </div>
 {:else}
-    <h2>HELLO</h2>
+    <slot />
 {/if}
 
 <style>

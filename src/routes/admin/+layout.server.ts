@@ -8,13 +8,18 @@ import type { RouteData } from "$Types"
 import type { LayoutServerLoad } from "./$types"
 
 export const load:LayoutServerLoad = async({locals})=>{
-    const routes = await cms.Fetch.routes({ filter:{},count:svelteCMS.config.routesPerPage })
-    // Set server stores
-    ROUTES.set(routes)
-    // Auto generate types on dev mode
-    if(isDevMode && routes.length>0) makeRoutesTypes(routes)
-    // Return objects
-    return { routes:routes,user:locals.user } 
+    // If user is logged in
+    if(locals.user){
+        const routes = await cms.Fetch.routes({ filter:{},count:svelteCMS.config.routesPerPage })
+        // Set server stores
+        ROUTES.set(routes)
+        // Auto generate types on dev mode
+        if(isDevMode && routes.length>0) makeRoutesTypes(routes)
+        // Return objects
+        return { routes:routes,user:locals.user } 
+    }
+    // Else if user is not logged in
+    return { routes:[],user:locals.user } 
 }
  
 /** Auto make types for object */
