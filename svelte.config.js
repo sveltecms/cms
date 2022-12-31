@@ -12,16 +12,17 @@ const config = {
 		adapter: adapter(),
         alias:{
             //<svelteCMSAlias>
-            $svelteCMS:"src/admin/svelteCMS.ts",
-            $Cms:"src/admin/cms/cms.server.ts",
-            $Utilities:"src/admin/utilities",
-            $Stores:"src/admin/stores.ts",
-            $Database:"src/admin/db.server.ts",
-            $Types:"src/admin/types",
-            $Comps:"src/admin/components/",
-            $Elements:"src/admin/elements/",
-            $Icons:"src/admin/icons/",
-            $Packages:"src/admin/packages/"
+            $StaticFiles:"src/routes/admin/_core/static",
+            $svelteCMS:"src/routes/admin/_core/svelteCMS.ts",
+            $Cms:"src/routes/admin/_core/cms/cms.server.ts",
+            $Utilities:"src/routes/admin/_core/utilities",
+            $Stores:"src/routes/admin/_core/stores.ts",
+            $Database:"src/routes/admin/_core/db.server.ts",
+            $Types:"src/routes/admin/_core/types",
+            $Comps:"src/routes/admin/_core/components/",
+            $Elements:"src/routes/admin/_core/elements/",
+            $Icons:"src/routes/admin/_core/icons/",
+            $Packages:"src/routes/admin/_core/packages/"
             //</svelteCMSAlias>
         }
 	}

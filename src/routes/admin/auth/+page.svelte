@@ -1,5 +1,5 @@
 <script lang="ts">
-    const API_PATH = "/auth"
+    const API_PATH = "/admin/auth"
     let email:string = ""
     let password:string = ""
     let showPassword:boolean = false
@@ -11,7 +11,7 @@
         password: checkForError && password.trim() === ""
     }
     // STYLES
-    import "../../admin/layout.css"
+    import "$StaticFiles/layout.css"
     // TYPES
     import type { ApiAuthLoginData, AuthLoginLoad } from "$Types";
     // UTILITIES
