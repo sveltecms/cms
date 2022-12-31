@@ -104,30 +104,20 @@ function mkCmsDataFolder(){
     fs.copyFileSync(`${BUILD_PATH}/images/no-image.jpeg`,`${CMS_DATA_PATH}/assets/images/no-image.jpeg`)
 }
 
-/** Copy admin,admin routes and needed static images folders to project */
+/** Copy admin route and admin images */
 function copyAdminFolders(){
-    const adminPath = `${BUILD_PATH}/admin`
-    const authPath = `${BUILD_PATH}/auth`
     const adminRoutesPath = `${BUILD_PATH}/routes`
     const adminStaticPath = `${BUILD_PATH}/images`
-    const projectAdminPath = `${CWD}/src/admin`
     const projectAdminRoutesPath = `${CWD}/src/routes/admin`
-    const projectAuthPath = `${CWD}/src/routes/auth`
     const projectAdminStaticPath = `${CWD}/static/admin`
     // Delete admin and admin routes folders, if exists
-    if(fs.existsSync(projectAdminPath)) fs.rmSync(projectAdminPath,{recursive:true})
     if(fs.existsSync(projectAdminRoutesPath)) fs.rmSync(projectAdminRoutesPath,{recursive:true})
     if(fs.existsSync(projectAdminStaticPath)) fs.rmSync(projectAdminStaticPath,{recursive:true})
-    if(fs.existsSync(projectAuthPath)) fs.rmSync(projectAuthPath,{recursive:true})
     // Copy admin and admin routes folders
-    // copy admin data
-    execSync(`cp -a ${adminPath} ${projectAdminPath}`)
     // copy admin routes
     execSync(`cp -a ${adminRoutesPath} ${projectAdminRoutesPath}`)
     // copy admin static folder
     execSync(`cp -a ${adminStaticPath} ${projectAdminStaticPath}`)
-    // copy auth route folder
-    execSync(`cp -a ${authPath} ${projectAuthPath}`)
 }
 
 /** Handle .env variables */ 
@@ -138,8 +128,8 @@ function HandleDotEnv(){
     if(dotEnvFilePathExist){
         const dotEnvOldData = fs.readFileSync(dotEnvFilePath).toString()
         let dotEnvNewData = ""
-        if(!dotEnvOldData.includes(`DATABASE_URL="${DB_URL}"`)) dotEnvNewData+=`\nDATABASE_URL="${DB_URL}"`
-        if(!dotEnvOldData.includes(`DATABASE_NAME="${DB_NAME}"`)) dotEnvNewData+=`\nDATABASE_NAME="${DB_NAME}"`
+        if(!dotEnvOldData.includes("DATABASE_URL=")) dotEnvNewData+=`\nDATABASE_URL="${DB_URL}"`
+        if(!dotEnvOldData.includes("DATABASE_NAME=")) dotEnvNewData+=`\nDATABASE_NAME="${DB_NAME}"`
         fs.appendFileSync(dotEnvFilePath,dotEnvNewData)
     }
     // Else if .env do not exists
@@ -177,20 +167,29 @@ function handleDependencies(){
 /** Handle alias */ 
 function handleAlias(){
     let projectSvelteConfig = fs.readFileSync(`${CWD}/svelte.config.js`).toString()
+    /** If current project contains alias */
     const aliasExists = ( projectSvelteConfig.includes("alias:") || projectSvelteConfig.includes("alias :") )
     const cmsAlias = []
+    // Loop needed alias for cms
     for(const aliasData of Object.entries(dataJson.alias)){
         const [ name,value ] = aliasData
         cmsAlias.push(`    ${name}:"${value}"`)
     }
-    // If updating, remove old alias
+    // If svelteCMS already exists in project, remove old alias
     if(projectSvelteConfig.includes("//<svelteCMS>")){
         const innerText = projectSvelteConfig.split("//<svelteCMS>")[1].split("//</\svelteCMS>")[0]
         projectSvelteConfig = projectSvelteConfig.replace(innerText,"").replace("//<svelteCMS>","").replace("//</\svelteCMS>\n","").trim()
     }
-    const warningFunc = `config['onwarn'] = (warning, handler)=>{ if(warning.code.startsWith('a11y-')) return ; handler(warning); }`
-    if(aliasExists) projectSvelteConfig = projectSvelteConfig.replace(/export.*default.*config/i,`//<svelteCMS>\n${warningFunc}\nconfig['kit']['alias'] = {\n${cmsAlias.join(",\n")},\n    ...config['kit']['alias']\n}\n//</svelteCMS>\nexport default config`)
-    else projectSvelteConfig = projectSvelteConfig.replace(/export.*default.*config/i,`//<svelteCMS>\n${warningFunc}\nconfig['kit']['alias'] = {\n${cmsAlias.join(",\n")}\n}\n//</svelteCMS>\nexport default config`)
+    // If project already has alias
+    if(aliasExists){
+        const warningFunc = `config['onwarn'] = (warning, handler)=>{ if(warning.code.startsWith('a11y-')) return ; handler(warning); }`
+        projectSvelteConfig = projectSvelteConfig.replace(/export.*default.*config/i,`//<svelteCMS>\n${warningFunc}\nconfig['kit']['alias'] = {\n${cmsAlias.join(",\n")},\n    ...config['kit']['alias']\n}\n//</svelteCMS>\nexport default config`)
+    }
+    // Else if project do not has alias
+    else{
+        const warningFunc = `config['onwarn'] = (warning, handler)=>{ if(warning.code.startsWith('a11y-')) return ; handler(warning); }`
+        projectSvelteConfig = projectSvelteConfig.replace(/export.*default.*config/i,`//<svelteCMS>\n${warningFunc}\nconfig['kit']['alias'] = {\n${cmsAlias.join(",\n")}\n}\n//</svelteCMS>\nexport default config`)
+    }
     // Update svelte.config.js
     fs.writeFileSync(`${CWD}/svelte.config.js`,projectSvelteConfig)
 }
@@ -228,7 +227,7 @@ async function Main(){
         }
         // Run npm install
         console.log("Running npm install, please wait") ; execSync("npm install")
-        console.log(colorMe.green("svelteCMS was installed"))
+        console.log(colorMe.green(`svelteCMS was ${NEW_INSTALL?"installed":"updated"}`))
         if(NEW_INSTALL){
             console.log(colorMe.green(`Default root user info:\n    email:root@sveltecms.dev\n    password:${ROOT_PASSWORD}`))
         }
