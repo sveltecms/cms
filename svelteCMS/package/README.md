@@ -2,26 +2,17 @@
 ### All In One Svelte Kit Content Management System
 Add A Cms To Your Svelte Projects Without Having To Leave Your Work Folder.
 ### WARNING
-<div class="warning">
-    <p>Make sure <a href="http://mongodb.org" target="_blank" rel="noopener noreferrer">MongoDB</a> is installed</p>
-    <p>Make sure your <a href="http://mongodb.org" target="_blank" rel="noopener noreferrer">SvelteKit</a> Project is a <a href="http://mongodb.org" target="_blank" rel="noopener noreferrer">TypesScript</a> Project</p>
-</div>
-<style>
-    .warning{
-        font-weight: 300;
+<div class="warning" style="font-weight: 300;
         background-color: #eb5757;
         color: white;
         padding: 10px;
         border-radius: 5px;
         display: flex;
         flex-direction:column;
-        justify-content: center;
-    }
-    .warning a{
-        text-decoration: none;
-        font-weight: 800;
-    }
-</style>
+        justify-content: center;">
+    <p>Make sure <a style="text-decoration: none;font-weight: 800;" href="http://mongodb.org" target="_blank" rel="noopener noreferrer">MongoDB</a> is installed</p>
+    <p>Make sure your <a style="text-decoration: none;font-weight: 800;" href="http://mongodb.org" target="_blank" rel="noopener noreferrer">SvelteKit</a> Project is a <a style="text-decoration: none;font-weight: 800;" href="http://mongodb.org" target="_blank" rel="noopener noreferrer">TypesScript</a> Project</p>
+</div>
 
 #### Step 1: create a svelteKit project
 ``` bash
