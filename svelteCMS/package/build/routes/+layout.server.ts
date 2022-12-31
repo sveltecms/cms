@@ -39,7 +39,7 @@ function makeRoutesTypes(routes:RouteData[]){
         objectsTypes+=`${objectType}\n\n`
     }
     // Save types
-    const typePath = `${process.cwd()}/src/admin/types/dynamically.ts`
+    const typePath = `${process.cwd()}/src/routes/admin/_core/types/dynamically.ts`
     const typeData = objectsTypes.trimEnd()
     writeFileSync(typePath,typeData)
 }
