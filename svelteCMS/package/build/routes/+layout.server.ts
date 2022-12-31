@@ -23,7 +23,7 @@ function makeRoutesTypes(routes:RouteData[]){
     let objectsTypes = ""
     for(const route of routes){
         // Loop elements in route
-        let objectType = `/** Object data for objects inside route:${route.ID} */\nexport type ${capitalize(route.ID)}ObjectData = {\n`
+        let objectType = `/** Object data for objects inside route:${route.ID} */\nexport type ${capitalize(route.ID)}ObjectData = {\n    _id:import("mongodb").ObjectId\n`
         for(const element of route.elements){
             const IDtype = getElementType(element.type)
             objectType+=`    ${element.ID}:${IDtype}\n`
