@@ -113,7 +113,7 @@
 
 <Meta {...routeData.meta}/>
 <FileUploader on:select={handleFileSelected} bind:open={showFileUploader}/>
-<PageTitleLink href="/admin/routes" linkText="View routes" goBackSrc="/admin/routes" title="New object"/>
+<PageTitleLink href="/admin/routes" linkText="View routes" goBackSrc={`/admin/objects/${routeData.ID}`} title="New object"/>
 <Content>
     <LeftContent>
         {#each routeData.elements as element}

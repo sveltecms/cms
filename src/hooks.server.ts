@@ -10,17 +10,23 @@ export const handle:Handle = async({ event, resolve })=> {
         const auth = await cms.Auth.isAuth(JSON.parse(session!),event.request)
         if(auth){
             // If user is not an admin or root user, redirect home page
-            if(auth.role==="user" && pathname!=="/admin/auth/logout" && pathname.startsWith("/admin") ) throw redirect(302,"/")
+            if(auth.role==="user" && pathname!=="/admin/auth/logout" && pathname.startsWith("/admin") ){
+                throw redirect(302,"/")
+            }
+            // Else add user to locals
             const user = auth ; user['_id']=user['_id'].toString()
             event.locals.user = auth
         }
+        // If auth did not pass
         // Redirect to login page
-        else if(pathname!=="/admin/auth" && pathname!=="/"){
+        // TODO: Let admin decide what routes are protected by given an array of paths
+        else if(pathname.startsWith("/admin") && pathname!=="/admin/auth"){
             throw redirect(302,"/admin/auth")
         }
     }
     // Else if session do not exists in cookie, redirect to login page
-    else if(pathname!=="/admin/auth" && pathname!=="/"){
+    // TODO: Let admin decide what routes are protected by given an array of paths
+    else if(pathname.startsWith("/admin") && pathname!=="/admin/auth"){
         throw redirect(302,"/admin/auth")
     }
     const response = await resolve(event);
