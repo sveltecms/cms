@@ -15,11 +15,13 @@
     }
     import type { PageData } from "./$types";
     import type { UserData, ApiUserUpdateLoad, ApiUserUpdateData,AssetData } from "$Types";
+    import svelteCMS from "$svelteCMS";
+    import SvelteHead from "@anthony809/svelte-head"
     import { goto } from "$app/navigation";
     import { fetchPost, validateUserData, wait } from "$Utilities"
     import PageTitleLink from "$Comps/PageTitleLink.svelte";
     // Packages
-    import { newToast } from "$Packages/svelteToasts";
+    import { newToast } from "@anthony809/svelte-toasts/index";
     import FileUploader from "$Packages/fileUploader/FileUploader.svelte";
     // Icons
     import UpdateIcon from "$Icons/RotateRight.svelte";
@@ -71,8 +73,16 @@
         const asset:AssetData = e.detail
         userData.image = asset
     }
+    const pageData = {
+        appName:svelteCMS.site.name,
+        favicon:svelteCMS.site.favicon,
+        title:"Editing user",
+        description:svelteCMS.site.desc,
+        backdrop:svelteCMS.site.backdrop
+    }
 </script>
 
+<SvelteHead {...pageData}/>
 <FileUploader bind:open={isFileUploaderOpen} on:select={updateUserImage}/>
 <PageTitleLink href="/admin/users" linkText="All users" title="All users" goBackSrc="/admin/users"/>
 <Content>

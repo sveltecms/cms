@@ -6,6 +6,7 @@
     import type { AssetData } from "$Types";
     import type { FetchAssetsLoad,FetchAssetsRes } from "$Types/cms";
     import svelteCMS from "$svelteCMS";
+    import SvelteHead from "@anthony809/svelte-head"
     import { ASSETS } from "$Stores"
     import { wait,fetchPost } from "$Utilities"
     // Icons
@@ -63,8 +64,16 @@
     let pageNumber = 1
     /** Indicate when loading more assets */
     let isGettingMoreAssets = false
+    const pageData = {
+        appName:svelteCMS.site.name,
+        favicon:svelteCMS.site.favicon,
+        title:"Assets",
+        description:svelteCMS.site.desc,
+        backdrop:svelteCMS.site.backdrop
+    }
 </script>
 
+<SvelteHead {...pageData}/>
 <FileUploader allowSelection={false} bind:open={isFileUploaderOpen} on:select={handleFileSelect}/>
 {#if $ASSETS.length > 0}
     <TitleButton title="All Assets" on:click={()=>isFileUploaderOpen=true} icon={PlusIcon}/>

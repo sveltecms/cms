@@ -5,11 +5,10 @@
     import type { LayoutServerData } from "./$types"
     // Other
     import { beforeNavigate } from "$app/navigation";
-    import { PREV_PATH, ROUTES, USER } from "$Stores"
+    import { PREV_PATH, ROUTES } from "$Stores"
     // Packages
-    import Toasts from "$Packages/svelteToasts/Toasts.svelte";
+    import Toasts from "@anthony809/svelte-toasts/Toasts.svelte";
     // Components
-    import Meta from "$Comps/Meta.svelte";
     import MainNav from "$Comps/core/nav/Nav.svelte";
     import TopNav from "$Comps/core/nav/topNav/TopNav.svelte";
     import Footer from "$Comps/core/footer/Footer.svelte";
@@ -21,7 +20,6 @@
 
 {#if data.user}
     <Toasts />
-    <Meta />
     <div class="app">
         <MainNav />
         <div class="content">

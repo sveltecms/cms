@@ -7,7 +7,7 @@ import { execSync } from "child_process";
 const CWD = process.cwd()
 const BUILD_PATH = `${CWD}/svelteCMS/package/build`
 /** Needed dependencies */
-const NEEDED_DEPENDENCIES = [ "bcrypt","mongodb","slugify" ]
+const NEEDED_DEPENDENCIES = [ "bcrypt","mongodb","slugify","@anthony809/svelte-editor","@anthony809/svelte-head","@anthony809/svelte-toasts" ]
 /** Needed dev dependencies */
 const NEEDED_DEV_DEPENDENCIES = [ "sass" ]
 

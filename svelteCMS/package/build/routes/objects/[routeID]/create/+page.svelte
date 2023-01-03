@@ -16,6 +16,8 @@
     let showSearchCategories:boolean = false
     let showSearchTags:boolean = false
     let lastElementAssetTargeted:ElementData
+    import svelteCMS from "$svelteCMS";
+    import SvelteHead from "@anthony809/svelte-head"
     // TYPES
     import type { PageData } from "./$types";
     import type { AssetData,CategoryData,TagData,ApiObjectCreateLoad,ApiObjectCreateData, StatusData, ElementData } from "$Types"
@@ -27,8 +29,8 @@
     import AssetIcon from "$Icons/Images.svelte"
     import UpdateAssetIcon from "$Icons/RotateRight.svelte"
     // PACKAGES
-    import { newToast } from "$Packages/svelteToasts"
-    import EditorJs from "$Packages/editorJs/EditorJs.svelte"
+    import { newToast } from "@anthony809/svelte-toasts/index"
+    import Editor from "@anthony809/svelte-editor/Editor.svelte"
     import FileUploader from "$Packages/fileUploader/FileUploader.svelte";
     // ELEMENTS
     import Button from "$Elements/Button.svelte";
@@ -41,7 +43,6 @@
     import SearchCategories from "$Elements/searchCategories/Search.svelte"
     import SearchTags from "$Elements/searchTags/Search.svelte"
     // COMPONENTS
-    import Meta from "$Comps/Meta.svelte"
     import PageTitleLink from "$Comps/PageTitleLink.svelte";
     // ROUTE COMPONENTS
     import Content from "$Comps/routes/Content.svelte";
@@ -115,9 +116,16 @@
         await wait(500)
         loading = false
     }
+    const pageData = {
+        appName:svelteCMS.site.name,
+        favicon:svelteCMS.site.favicon,
+        title:"Create object",
+        description:svelteCMS.desc,
+        backdrop:svelteCMS.site.backdrop
+    }
 </script>
 
-<Meta {...routeData.meta}/>
+<SvelteHead {...pageData}/>
 <FileUploader on:select={handleFileSelected} bind:open={showFileUploader}/>
 <PageTitleLink href="/admin/routes" linkText="View routes" goBackSrc={`/admin/objects/${routeData.ID}`} title="New object"/>
 <Content>
@@ -137,7 +145,7 @@
                 <Input bind:value={element.value} placeholder={element.name}/>
             {:else if element.type === "content"}
                 <Label text={element.name} error={checkForErrors && !element.value}/>
-                <EditorJs bind:editorJSData={element.value}/>
+                <Editor bind:data={element.value}/>
             {/if}
         {/each}
     </LeftContent>

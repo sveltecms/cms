@@ -5,6 +5,8 @@
     ROUTES.set(data.routes)
     import type { PageServerData } from "./$types"
     import { ROUTES,USERS,ASSETS } from "$Stores"
+    import svelteCMS from "$svelteCMS";
+    import SvelteHead from "@anthony809/svelte-head"
     import PageTitle from "$Comps/PageTitle.svelte";
     import PageTitleLink from "$Comps/PageTitleLink.svelte";
     import NoResult from "$Comps/NoResult.svelte";
@@ -12,8 +14,16 @@
     import Users from "$Comps/users/Users.svelte";
     import Routes from "$Comps/routes/routes/Routes.svelte";
     import Assets from "$Comps/shared/assets/Assets.svelte";
+    const pageData = {
+        appName:svelteCMS.site.name,
+        favicon:svelteCMS.site.favicon,
+        title:"Home",
+        description:svelteCMS.site.desc,
+        backdrop:svelteCMS.site.backdrop
+    }
 </script>
 
+<SvelteHead {...pageData}/>
 <PageTitle title="Website stats"/>
 <Stats stats={data.stats}/>
 

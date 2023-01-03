@@ -4,6 +4,7 @@
     import type { PageServerData } from "./$types";
     import type { FetchRoutesLoad,FetchRoutesRes } from "$Types/cms";
     import svelteCMS from "$svelteCMS";
+    import SvelteHead from "@anthony809/svelte-head"
     import { wait,fetchPost } from "$Utilities"
     import { ROUTES } from "$Stores";
     import PageTitleLink from "$Comps/PageTitleLink.svelte"
@@ -45,8 +46,16 @@
     let pageNumber:number = 1
     /** Indicate if show load more button or not */
     let showLoadMoreBtn:boolean = $ROUTES.length >= svelteCMS.config.routesPerPage
+    const pageData = {
+        appName:svelteCMS.site.name,
+        favicon:svelteCMS.site.favicon,
+        title:"Routes",
+        description:svelteCMS.site.desc,
+        backdrop:svelteCMS.site.backdrop
+    }
 </script>
 
+<SvelteHead {...pageData}/>
 {#if $ROUTES.length>0}
     <PageTitleLink href="/admin/routes/create" title="All routes"/>
     <Routes routes={$ROUTES}/>

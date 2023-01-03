@@ -12,17 +12,17 @@
     let showFileUploader:boolean = false
     let loading:boolean = false
     // Config
-    import svelteCMS from "$svelteCMS"
+    import svelteCMS from "$svelteCMS";
+    import SvelteHead from "@anthony809/svelte-head"
     // Svelte
     import { goto } from "$app/navigation";
     // Types
-    import type { CategoryLoad, ApiCategoryCreateLoad, ApiCategoryCreateData } from "$Types"
+    import type { CategoryLoad, ApiCategoryCreateLoad, ApiCategoryCreateData,AssetData } from "$Types"
     import type { PageParentData } from "./$types"
     import { validateTagCategory, wait, generateSlug, fetchPost } from "$Utilities"
     // Packages
-    import { newToast } from "$Packages/svelteToasts";
+    import { newToast } from "@anthony809/svelte-toasts/index";
     import FileUploader from "$Packages/fileUploader/FileUploader.svelte";
-    import type { AssetData } from "$Packages/fileUploader/types";
     // Icons
     import PublishIcon from "$Icons/Globe.svelte"
     // Components
@@ -65,8 +65,16 @@
         await wait(1000) // wait 1 second
         loading = false // remove spinner
     }
+    const pageData = {
+        appName:svelteCMS.site.name,
+        favicon:svelteCMS.site.favicon,
+        title:"Create category",
+        description:svelteCMS.desc,
+        backdrop:svelteCMS.site.backdrop
+    }
 </script>
 
+<SvelteHead {...pageData}/>
 <FileUploader bind:open={showFileUploader} on:select={updateImage}/>
 <Content>
     <LeftContent>

@@ -37,7 +37,7 @@ async function simpleChecks(){
     if(svelteCMSExists && svelteCMSRoutesExists){
         const canContinue = await inquirer.prompt({
             name:"data", type:"list",
-            message:`${colorMe.red("Looks like SvelteCMS is already installed, the following files will be overwritten, continue ?")}\n    src/admin\n    src/routes/admin\n    src/routes/auth\n    src/app.d.ts\n    src/hooks.server.ts`,
+            message:`${colorMe.red("Looks like SvelteCMS is already installed, the following files will be overwritten, continue ?")}\n    src/routes/admin\n    src/app.d.ts\n    src/hooks.server.ts`,
             choices:["yes","no"]
         })
         NEW_INSTALL = false

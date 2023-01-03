@@ -3,7 +3,7 @@
     export let routes:RouteData[]
     import type { RouteData, ApiRouteDeleteLoad, ApiRouteDeleteData } from "$Types"
     import { fetchPost } from "$Utilities";
-    import { newToast } from "$Packages/svelteToasts";
+    import { newToast } from "@anthony809/svelte-toasts/index";
     import { ROUTES } from "$Stores"
     import Route from "./Route.svelte";
     /** handle route deletion */

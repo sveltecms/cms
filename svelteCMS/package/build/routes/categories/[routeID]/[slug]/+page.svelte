@@ -11,6 +11,8 @@
     let checkForErrors:boolean = false
     let showFileUploader:boolean = false
     let loading:boolean = false
+    import svelteCMS from "$svelteCMS";
+    import SvelteHead from "@anthony809/svelte-head"
     // Svelte
     import { goto } from "$app/navigation";
     // Types
@@ -18,7 +20,7 @@
     import type { PageData } from "./$types"
     import { validateTagCategory, wait, generateSlug, fetchPost } from "$Utilities"
     // Packages
-    import { newToast } from "$Packages/svelteToasts";
+    import { newToast } from "@anthony809/svelte-toasts/index";
     import FileUploader from "$Packages/fileUploader/FileUploader.svelte";
     import type { AssetData } from "$Types";
     // Icons
@@ -63,8 +65,16 @@
         await wait(1000) // wait 1 second
         loading = false // remove spinner
     }
+    const pageData = {
+        appName:svelteCMS.site.name,
+        favicon:svelteCMS.site.favicon,
+        title:"Editing category",
+        description:svelteCMS.desc,
+        backdrop:svelteCMS.site.backdrop
+    }
 </script>
 
+<SvelteHead {...pageData}/>
 <FileUploader bind:open={showFileUploader} on:select={updateImage}/>
 <Content>
     <LeftContent>

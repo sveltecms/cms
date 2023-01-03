@@ -7,7 +7,7 @@
     import type { ElementData, ElementType } from "$Types"
     import { validateElement } from "$Utilities"
     // Packages
-    import { newToast } from "$Packages/svelteToasts";
+    import { newToast } from "@anthony809/svelte-toasts/index";
     // Icons
     import PlusIcon from "$Icons/Plus.svelte";
     // Elements

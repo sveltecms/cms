@@ -10,11 +10,12 @@
     import { wait,fetchPost } from "$Utilities";
     import { USERS } from "$Stores";
     import svelteCMS from "$svelteCMS";
+    import SvelteHead from "@anthony809/svelte-head"
     // Icons
     import PlusIcon from "$Icons/Plus.svelte";
     import PageTitleLink from "$Comps/PageTitleLink.svelte";
     // Packages
-    import { newToast } from "$Packages/svelteToasts";
+    import { newToast } from "@anthony809/svelte-toasts/index";
     // Components
     import Users from "$Comps/users/Users.svelte";
     import NoResult from "$Comps/NoResult.svelte"
@@ -69,8 +70,16 @@
     let pageNumber:number = 1
     /** Indicate if show load more button or not */
     let showLoadMoreBtn:boolean = $USERS.length >= svelteCMS.config.usersPerPage
+    const pageData = {
+        appName:svelteCMS.site.name,
+        favicon:svelteCMS.site.favicon,
+        title:"Users",
+        description:svelteCMS.site.desc,
+        backdrop:svelteCMS.site.backdrop
+    }
 </script>
 
+<SvelteHead {...pageData}/>
 {#if $USERS.length > 0}
     <PageTitleLink href="/admin/users/create" title="Users" icon={PlusIcon}/>
     <Users users={$USERS} on:delete={handleDeleteUser}/>
