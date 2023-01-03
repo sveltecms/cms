@@ -1,5 +1,8 @@
 {
     "dependencies": {
+        "@anthony809/svelte-editor": "^0.0.1",
+        "@anthony809/svelte-head": "^0.0.5",
+        "@anthony809/svelte-toasts": "^0.0.1",
         "bcrypt": "^5.1.0",
         "mongodb": "^4.13.0",
         "slugify": "^1.6.5"

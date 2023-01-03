@@ -15,6 +15,8 @@
     }
     // Types
     import type { RouteLoad, RouteData, ElementData,ApiRouteCreateLoad, ApiRouteCreateData } from "$Types"
+    import svelteCMS from "$svelteCMS";
+    import SvelteHead from "@anthony809/svelte-head"
     // SVELTE
     import { goto } from "$app/navigation";
     // STORES
@@ -24,7 +26,7 @@
     // Icons
     import SaveIcon from "$Icons/Globe.svelte"
     // Packages
-    import { newToast } from "$Packages/svelteToasts";
+    import { newToast } from "@anthony809/svelte-toasts/index";
     // Components
     import PageTitleLink from "$Comps/PageTitleLink.svelte";
     // Elements comps
@@ -74,8 +76,16 @@
         await wait(1000) // Wait 1 second before removing spinner and
         publishing = false // Remove spinner for publish button
     }
+    const pageData = {
+        appName:svelteCMS.site.name,
+        favicon:svelteCMS.site.favicon,
+        title:"Create route",
+        description:svelteCMS.site.desc,
+        backdrop:svelteCMS.site.backdrop
+    }
 </script>
 
+<SvelteHead {...pageData}/>
 <PageTitleLink href="/admin/routes" linkText="All routes" title="Adding route" goBackSrc="/admin/routes"/>
 <Content>
     <LeftContent>

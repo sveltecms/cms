@@ -16,8 +16,10 @@
     import type { TagLoad, ApiTagCreateLoad, ApiTagCreateData } from "$Types"
     import type { PageData } from "./$types"
     import { validateTagCategory, wait, generateSlug, fetchPost } from "$Utilities"
+    import svelteCMS from "$svelteCMS";
+    import SvelteHead from "@anthony809/svelte-head"
     // Packages
-    import { newToast } from "$Packages/svelteToasts";
+    import { newToast } from "@anthony809/svelte-toasts/index";
     // Icons
     import PublishIcon from "$Icons/Globe.svelte"
     // Components
@@ -54,8 +56,16 @@
         await wait(1000) // wait 1 second
         loading = false // remove spinner
     }
+    const pageData = {
+        appName:svelteCMS.site.name,
+        favicon:svelteCMS.site.favicon,
+        title:"Create tag",
+        description:svelteCMS.site.desc,
+        backdrop:svelteCMS.site.backdrop
+    }
 </script>
 
+<SvelteHead {...pageData}/>
 <Content>
     <LeftContent>
         <Label text="Name" error={errorOnFields.name}/>

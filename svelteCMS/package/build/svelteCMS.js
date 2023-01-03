@@ -30,6 +30,14 @@ export const defaultUser = {
 
 /** All information about svelteCMS */
 export default {
+    site:{
+        name: 'SvelteCMS',
+        title: 'All in one cms',
+        desc: 'A simple svelte kit cms for all your needs.',
+        logo: '/admin/logo.png',
+        favicon: '/admin/favicon.png',
+        backdrop: '/admin/backdrop.png',
+    },
     name: 'SvelteCMS',
     title: 'All in one cms',
     desc: 'A simple svelte kit cms for all your needs.',

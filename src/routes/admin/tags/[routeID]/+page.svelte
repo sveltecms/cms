@@ -6,7 +6,8 @@
     import type { ApiTagDeleteLoad,ApiTagDeleteData } from "$Types";
     import type { FetchTagsLoad,FetchTagsRes } from "$Types/cms"
     import svelteCMS from "$svelteCMS";
-    import { newToast } from "$Packages/svelteToasts";
+    import SvelteHead from "@anthony809/svelte-head"
+    import { newToast } from "@anthony809/svelte-toasts/index";
     import { capitalize,fetchPost, wait } from "$Utilities";
     import PlusIcon from "$Icons/Plus.svelte";
     import PageTitleLink from "$Comps/PageTitleLink.svelte";
@@ -62,8 +63,16 @@
     let pageNumber = 1
     /** Indicate when loading more tags */
     let isGettingMoreTags = false
+    const pageData = {
+        appName:svelteCMS.site.name,
+        favicon:svelteCMS.site.favicon,
+        title:"Tags",
+        description:svelteCMS.site.desc,
+        backdrop:svelteCMS.site.backdrop
+    }
 </script>
 
+<SvelteHead {...pageData}/>
 {#if tags.length > 0}
     <PageTitleLink {title} icon={PlusIcon} href={newTagLink} />
     <Tags {tags} on:delete={handleTagDelete}/>

@@ -6,8 +6,9 @@
     import type { ApiCategoryDeleteLoad,ApiCategoryDeleteData } from "$Types";
     import type { FetchCategoriesLoad,FetchCategoriesRes } from "$Types/cms"
     import svelteCMS from "$svelteCMS";
+    import SvelteHead from "@anthony809/svelte-head"
     import { capitalize,fetchPost, wait } from "$Utilities";
-    import { newToast } from "$Packages/svelteToasts";
+    import { newToast } from "@anthony809/svelte-toasts/index";
     import PlusIcon from "$Icons/Plus.svelte";
     import PageTitleLink from "$Comps/PageTitleLink.svelte";
     import Categories from "$Comps/categories/Categories.svelte"
@@ -63,8 +64,16 @@
     let pageNumber = 1
     /** Indicate when loading more categories */
     let isGettingMoreCategories = false
+    const pageData = {
+        appName:svelteCMS.site.name,
+        favicon:svelteCMS.site.favicon,
+        title:"Categories",
+        description:svelteCMS.desc,
+        backdrop:svelteCMS.site.backdrop
+    }
 </script>
 
+<SvelteHead {...pageData}/>
 {#if categories.length > 0}
     <PageTitleLink {title} icon={PlusIcon} href={newCategoryLink}/>
     <Categories {categories} on:delete={handleCategoryDelete}/>

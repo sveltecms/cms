@@ -2,7 +2,7 @@
     const API_PATH = "/admin/api/assets"
     export let assets:AssetData[]
     import { fade } from "svelte/transition"
-    import type { AssetData } from "$Packages/fileUploader/types";
+    import type { AssetData } from "$Types";
     import type { ApiAssetDeleteLoad,ApiAssetDeleteData,ApiAssetUpdateLoad,ApiAssetUpdateData } from "$Types/api";
     import { fetchPost, wait } from "$Utilities";
     import { ASSETS } from "$Stores"
@@ -17,7 +17,7 @@
     import Button from "$Elements/Button.svelte"
     import ImagePreview from "$Comps/routes/ImagePreview.svelte"
     // Packages
-    import { newToast } from "$Packages/svelteToasts"
+    import { newToast } from "@anthony809/svelte-toasts/index"
     /** Handle asset click */
     async function handleAssetClick(e:any) {
         const asset:AssetData = e.detail

@@ -16,13 +16,14 @@
     import type { ApiTagUpdateLoad, ApiTagUpdateData, TagData } from "$Types"
     import type { PageData } from "./$types"
     import { validateTagCategory, wait, generateSlug, fetchPost } from "$Utilities"
+    import svelteCMS from "$svelteCMS";
+    import SvelteHead from "@anthony809/svelte-head"
     // Packages
-    import { newToast } from "$Packages/svelteToasts";
+    import { newToast } from "@anthony809/svelte-toasts/index";
     // Icons
     import PublishIcon from "$Icons/Globe.svelte"
     // Components
     import Button from "$Comps/Button.svelte";
-    import ImagePreview from "$Comps/routes/ImagePreview.svelte";
     import Content from "$Comps/routes/Content.svelte";
     import LeftContent from "$Comps/routes/LeftContent.svelte";
     import RightContent from "$Comps/routes/RightContent.svelte";
@@ -54,8 +55,16 @@
         await wait(1000) // wait 1 second
         loading = false // remove spinner
     }
+    const pageData = {
+        appName:svelteCMS.site.name,
+        favicon:svelteCMS.site.favicon,
+        title:"Editing tag",
+        description:svelteCMS.site.desc,
+        backdrop:svelteCMS.site.backdrop
+    }
 </script>
 
+<SvelteHead {...pageData}/>
 <Content>
     <LeftContent>
         <Label text="Name" error={errorOnFields.name}/>

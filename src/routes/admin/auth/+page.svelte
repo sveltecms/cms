@@ -10,14 +10,15 @@
         email: checkForError && email.trim() === "" || checkForError && email.trim() !== "" && !isValidEmail(email),
         password: checkForError && password.trim() === ""
     }
+    import svelteCMS from "$svelteCMS";
+    import SvelteHead from "@anthony809/svelte-head"
     // STYLES
     import "$StaticFiles/layout.css"
     // TYPES
     import type { ApiAuthLoginData, AuthLoginLoad } from "$Types";
     // UTILITIES
     import { fetchPost, wait } from "$Utilities"
-    import { newToast } from "$Packages/svelteToasts";
-    import Meta from "$Comps/Meta.svelte";
+    import { newToast } from "@anthony809/svelte-toasts/index";
     import Toasts from "$Packages/svelteToasts/Toasts.svelte";
     // ICONS
     import EnvelopeAt from "$Icons/EnvelopeAt.svelte";
@@ -60,9 +61,16 @@
         await wait(500)
         submitting = false // Reset
     }
+    const pageData = {
+        appName:svelteCMS.site.name,
+        favicon:svelteCMS.site.favicon,
+        title:"Login",
+        description:svelteCMS.site.desc,
+        backdrop:svelteCMS.site.backdrop
+    }
 </script>
 
-<Meta title="Login"/>
+<SvelteHead {...pageData}/>
 <Toasts />
 <div class="page">
     <img class="logo" src="/admin/logo.png" alt="svelteCMS">

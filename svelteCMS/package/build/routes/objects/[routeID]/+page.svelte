@@ -5,10 +5,10 @@
     import type { ApiObjectDeleteLoad,ApiObjectDeleteData,ObjectData } from "$Types";
     import type { FetchRouteObjectsLoad,FetchRouteObjectsRes } from "$Types/cms";
     import svelteCMS from "$svelteCMS";
+    import SvelteHead from "@anthony809/svelte-head"
     import { wait,fetchPost, capitalize } from "$Utilities";
     // Packages
-    import { newToast } from "$Packages/svelteToasts";
-    import Meta from "$Comps/Meta.svelte"
+    import { newToast } from "@anthony809/svelte-toasts/index";
     // Comps
     import PageTitleLink from "$Comps/PageTitleLink.svelte"
     import Objects from "$Comps/routes/objects/Objects.svelte"
@@ -66,9 +66,16 @@
     let pageNumber:number = 1
     /** Indicate if show load more button or not */
     let showLoadMoreBtn:boolean = data.routeObjects.length >= svelteCMS.config.objectsPerPage
+    const pageData = {
+        appName:svelteCMS.site.name,
+        favicon:svelteCMS.site.favicon,
+        title:routeData.meta.title,
+        description:routeData.meta.description,
+        backdrop:svelteCMS.site.backdrop
+    }
 </script>
 
-<Meta {...routeData.meta} />
+<SvelteHead {...pageData}/>
 <PageTitleLink title={capitalize(routeData.title)} href="/admin/objects/{routeData.ID}/create" linkText="Add object" goBackSrc="/admin/routes"/>
 {#if routeObjects.length > 0}
     <Objects objects={routeObjects} on:delete={handleObjectDeletion}/>
