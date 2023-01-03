@@ -1,73 +1,51 @@
 #! /usr/bin/env node
 // @ts-check
-import fs from "fs"
-import { execSync } from "child_process"
 import svelteCMS, { defaultAsset, defaultUser } from "./build/svelteCMS.js";
 import dataJson from "./build/data.json" assert { type: "json" }
 import { MongoClient, ObjectId } from "mongodb";
 import bcrypt from "bcrypt"
 import inquirer from "inquirer"
+import fs from "fs"
+import path from "path"
+import { execSync } from "child_process"
 
 const CWD = process.cwd()
-const BUILD_PATH = `${process.argv[1].replace(".bin/","")}/build`
-// When testing
-// const BUILD_PATH = `${CWD}/svelteCMS/package/build`
-const APP_NAME_SEARCH =  process.argv.find(data=>data.includes("--appName="))
-const DB_UR_SEARCH =  process.argv.find(data=>data.includes("--dbUrl="))
-const APP_NAME = APP_NAME_SEARCH ? APP_NAME_SEARCH.split("--appName=")[1].trim() : ""
-const DB_URL = DB_UR_SEARCH ? DB_UR_SEARCH.split("--dbUrl=")[1].trim() : "mongodb://localhost:27017/"
-const DB_NAME = `svelteCMS${APP_NAME!==""?`_${APP_NAME}`:""}`
-const CMS_DATA_PATH = `${CWD}/.svelteCMS`
-let NEW_INSTALL = true
-let ROOT_PASSWORD = "sveltecms"
+const BUILD_PATH = `${path.dirname(new URL(import.meta.url).pathname)}/build`
+let NEW_INSTALL = !fs.existsSync(`${CWD}/.svelteCMS`) && !fs.existsSync(`${CWD}/src/routes/admin`)
+let APP = {
+    name:"TestApp",
+    email:"root@sveltecms.dev",
+    password: "sveltecms",
+    dbName:"svelteCMS",
+    dbUrl:"mongodb://localhost:27017/",
+    assetsDirPath:`${CWD}/.svelteCMS`
+}
 
-/** Console.log on red or green */
+async function askQuestion(question,defaultValue){
+    const objectData = { message:question,type:"input",name:"data" }
+    if(defaultValue) objectData['default'] = defaultValue
+    // @ts-ignore
+    return inquirer.prompt(objectData)
+}
+
 const colorMe = new class {
-    /** @param { string } data */
     red(data) { return `\x1b[31m${data}\x1b[0m` }
-    /** @param { string } data */
     green(data) { return `\x1b[32m${data}\x1b[0m` }
 };
 
-/** Run simple checks, before installing svelteCMS */
-async function simpleChecks(){
-    const svelteCMSExists = fs.existsSync(`${CWD}/.svelteCMS`)
-    const svelteCMSRoutesExists = fs.existsSync(`${CWD}/src/routes/admin`)
-    // If svelteCMS is already installed
-    if(svelteCMSExists && svelteCMSRoutesExists){
-        const canContinue = await inquirer.prompt({
-            name:"data", type:"list",
-            message:`${colorMe.red("Looks like SvelteCMS is already installed, the following files will be overwritten, continue ?")}\n    src/routes/admin\n    src/app.d.ts\n    src/hooks.server.ts`,
-            choices:["yes","no"]
-        })
-        NEW_INSTALL = false
-        // Return false
-        if(canContinue.data==="no") return false
-    }
-    // If it's new installation
-    else{
-        // Ask for root user password
-        const rootPassword = await inquirer.prompt({
-            name:"data", type:"input",
-            message:"Password for root user, what would it be ?"
-        })
-        ROOT_PASSWORD = rootPassword.data
-    }
-    return true
-}
 
 /** Create needed default data for svelteCMS */
 async function createDefaultDatabaseData(){
-    const mongoClient = new MongoClient(String(DB_URL))
+    const mongoClient = new MongoClient(String(APP.dbUrl))
     await mongoClient.connect()
-    const database = mongoClient.db(DB_NAME)
+    const database = mongoClient.db(APP.dbName)
     const databases = await database.admin().listDatabases()
-    const databaseExists = databases.databases.find(data=>data.name===DB_NAME)
+    const databaseExists = databases.databases.find(data=>data.name===APP.dbName)
     // If database exists
     if(databaseExists){
         const canContinue = await inquirer.prompt({
             name:"result", type:"list",
-            message:colorMe.red(`Looks like database: ${DB_NAME} already exists, it's data will be deleted: continue ?\n or pass --appName="youAppName" to use svelteCMS_youAppName as database name`),
+            message:colorMe.red(`Looks like database: ${APP.dbName} already exists, it's data will be deleted: continue ?\n or pass --appName="youAppName" to use svelteCMS_youAppName as database name`),
             choices:["yes","no"]
         })
         // Return false
@@ -80,7 +58,7 @@ async function createDefaultDatabaseData(){
     const usersCollection = database.collection(svelteCMS.collections.users)
     const linkedAssetsCollection = database.collection(svelteCMS.collections.linkedAssets)
     // Create default needed data
-    await usersCollection.insertOne({ ...defaultUser,password:await bcrypt.hash(ROOT_PASSWORD,10),_id:new ObjectId(defaultUser['_id'])})
+    await usersCollection.insertOne({ ...defaultUser,password:APP.password,_id:new ObjectId(defaultUser['_id'])})
     await assetsCollection.insertOne({...defaultAsset,_id:new ObjectId(defaultAsset._id)})
     const usersLinkedAsset = { collection: svelteCMS.collections.users, target: "image" }
     const postsLinkedAsset = { collection: "posts", target: "thumbnail" }
@@ -89,23 +67,23 @@ async function createDefaultDatabaseData(){
     await mongoClient.close() ; return true
 }
 
-/** Create cms folder and sub folders */
-function mkCmsDataFolder(){
+/** Create .svelteCMS folder */
+function handleAssetsFolder(){
     // Stop function if cms data folder exists
-    if(fs.existsSync(CMS_DATA_PATH)) return
+    if(fs.existsSync(APP.assetsDirPath)) return
     // Else create folder
-    fs.mkdirSync(CMS_DATA_PATH)
-    fs.mkdirSync(`${CMS_DATA_PATH}/assets`)
-    fs.mkdirSync(`${CMS_DATA_PATH}/assets/images`)
-    fs.mkdirSync(`${CMS_DATA_PATH}/assets/videos`)
-    fs.mkdirSync(`${CMS_DATA_PATH}/assets/audios`)
-    fs.mkdirSync(`${CMS_DATA_PATH}/assets/other`)
+    fs.mkdirSync(APP.assetsDirPath)
+    fs.mkdirSync(`${APP.assetsDirPath}/assets`)
+    fs.mkdirSync(`${APP.assetsDirPath}/assets/images`)
+    fs.mkdirSync(`${APP.assetsDirPath}/assets/videos`)
+    fs.mkdirSync(`${APP.assetsDirPath}/assets/audios`)
+    fs.mkdirSync(`${APP.assetsDirPath}/assets/other`)
     // Copy default asset
-    fs.copyFileSync(`${BUILD_PATH}/images/no-image.jpeg`,`${CMS_DATA_PATH}/assets/images/no-image.jpeg`)
+    fs.copyFileSync(`${BUILD_PATH}/images/no-image.jpeg`,`${APP.assetsDirPath}/assets/images/no-image.jpeg`)
 }
 
 /** Copy admin route and admin images */
-function copyAdminFolders(){
+function handleAdminFolders(){
     const adminRoutesPath = `${BUILD_PATH}/routes`
     const adminStaticPath = `${BUILD_PATH}/images`
     const projectAdminRoutesPath = `${CWD}/src/routes/admin`
@@ -128,14 +106,14 @@ function HandleDotEnv(){
     if(dotEnvFilePathExist){
         const dotEnvOldData = fs.readFileSync(dotEnvFilePath).toString()
         let dotEnvNewData = ""
-        if(!dotEnvOldData.includes("DATABASE_URL=")) dotEnvNewData+=`\nDATABASE_URL="${DB_URL}"`
-        if(!dotEnvOldData.includes("DATABASE_NAME=")) dotEnvNewData+=`\nDATABASE_NAME="${DB_NAME}"`
+        if(!dotEnvOldData.includes("DATABASE_URL=")) dotEnvNewData+=`\nDATABASE_URL="${APP.dbUrl}"`
+        if(!dotEnvOldData.includes("DATABASE_NAME=")) dotEnvNewData+=`\nDATABASE_NAME="${APP.dbName}"`
         fs.appendFileSync(dotEnvFilePath,dotEnvNewData)
     }
     // Else if .env do not exists
     // Add needed variables to .env file
     else{
-        fs.appendFileSync(dotEnvFilePath,`DATABASE_URL="${DB_URL}"\nDATABASE_NAME="${DB_NAME}"`)
+        fs.appendFileSync(dotEnvFilePath,`DATABASE_URL="${APP.dbUrl}"\nDATABASE_NAME="${APP.dbName}"`)
     }
 }
 
@@ -204,33 +182,44 @@ function handleSingleFiles(){
     fs.copyFileSync(appDFilePath,newAppDFilePath)
 }
 
+
 async function Main(){
-    const passedSimpleChecks = await simpleChecks()
-    if(passedSimpleChecks){
-        if(NEW_INSTALL){
-            const dbPassed = await createDefaultDatabaseData()
-            if(dbPassed){
-                mkCmsDataFolder()
-                copyAdminFolders() 
-                HandleDotEnv() 
-                handleDependencies()
-                handleAlias()
-                handleSingleFiles()
-            }
-        }else{
-            mkCmsDataFolder()
-            copyAdminFolders() 
-            HandleDotEnv() 
-            handleDependencies()
-            handleAlias()
-            handleSingleFiles()
-        }
-        // Run npm install
-        console.log("Running npm install, please wait") ; execSync("npm install")
-        console.log(colorMe.green(`svelteCMS was ${NEW_INSTALL?"installed":"updated"}`))
-        if(NEW_INSTALL){
-            console.log(colorMe.green(`Default root user info:\n    email:root@sveltecms.dev\n    password:${ROOT_PASSWORD}`))
-        }
+    if(NEW_INSTALL){
+        // ASK FOR APP NAME
+        const askAppName = await askQuestion("What should we named your app:",APP.name)
+        APP['name'] = askAppName.data
+        APP['dbName'] = `svelteCMS_${askAppName.data}`
+        // ASK FOR EMAIL
+        const askEmail = await askQuestion("What should be the default email:",APP.email)
+        APP['email'] = askEmail.data
+        // ASK FOR PASSWORD
+        const askPassword = await askQuestion("What should be the default password:",APP.password)
+        APP['password'] = await bcrypt.hash(askPassword.data,10)
+        // ASK FOR DB URL
+        const askDatabaseUrl = await askQuestion("MongoDB url:",APP.dbUrl)
+        APP['dbUrl'] = askDatabaseUrl.data
+    }else{
+        const warningMsg = `${colorMe.red("Looks like SvelteCMS is already installed, the following files will be overwritten, continue: yes/no")}\n    src/routes/admin\n    src/app.d.ts\n    src/hooks.server.ts`
+        const askWarning = await askQuestion(warningMsg,"yes")
+        const canContinue = askWarning.data
+        // Stop function
+        if(canContinue.toLowerCase()!=="yes") return
     }
+
+    // Check if database exists, if yes tell user data will be deleted
+    if(NEW_INSTALL){
+        const canContinue = await createDefaultDatabaseData()
+        // Stop function
+        if(!canContinue) return
+    }
+    handleAssetsFolder()
+    handleAdminFolders()
+    HandleDotEnv()
+    handleDependencies()
+    handleAlias()
+    handleSingleFiles()
+    // Run npm install
+    console.log("Running npm install, please wait") ; execSync("npm install")
+    console.log(colorMe.green(`svelteCMS was ${NEW_INSTALL?"installed":"updated"}`))
 }
 Main()
