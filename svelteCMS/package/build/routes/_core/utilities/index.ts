@@ -140,3 +140,13 @@ export function getElementType(type:ElementType){
     // @ts-ignore
     return types[type]
 }
+
+/** Get url to view assets */
+export function getAssetViewPath(asset:any){
+    const baseApi = "/admin/api/assets"
+    const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp"];
+    const videoExtensions = ["mp4", "avi", "mov", "wmv"];
+    if(imageExtensions.includes(asset.extension)) return `${baseApi}/images/${asset.path}`
+    else if(videoExtensions.includes(asset.extension)) return `${baseApi}/videos/${asset.path}`
+    else return `${baseApi}/other/${asset.path}`
+}

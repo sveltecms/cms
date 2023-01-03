@@ -20,7 +20,7 @@
     // Packages
     import { newToast } from "$Packages/svelteToasts";
     import FileUploader from "$Packages/fileUploader/FileUploader.svelte";
-    import type { AssetData } from "$Packages/fileUploader/types";
+    import type { AssetData } from "$Types";
     // Icons
     import PublishIcon from "$Icons/Globe.svelte"
     // Components

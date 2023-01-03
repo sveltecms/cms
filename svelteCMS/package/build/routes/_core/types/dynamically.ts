@@ -1,17 +1,10 @@
 /** Object data for objects inside route:posts */
 export type PostsObjectData = {
-    _id:import("mongodb").ObjectId
     title:string
-    slug:string
-    views:number
-    content:any
-    addedAt:number
-    updatedAt:number
-    image:{
-        _id:string
-        name:string
-        path:string
-        type:string
-        extension:string
-    }
+    _id:import("mongodb").ObjectId
+    _status:import("$Types").StatusData
+    _createdAt:number
+    _updatedAt:number
+    _categories:import("$Types").CategoryData[]
+    _tags:import("$Types").TagData[]
 }

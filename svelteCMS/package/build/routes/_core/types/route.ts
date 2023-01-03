@@ -12,7 +12,7 @@ export type ElementData = {
     ID:string
     /** Name of element */
     name:string
-    /** Type of element "dateNumber" | "textArea" | "input" | "inputNumber" | "slug" | "content" | "image" */
+    /** Type of element "dateTime" | "textArea" | "input" | "inputNumber" | "slug" | "content" | "image" | "_categories" | "_tags" | "_status" | "_createdAt" | "_updatedAt" */
     type:ElementType
     /** Element value (data) */
     value:any
