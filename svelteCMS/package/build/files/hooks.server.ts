@@ -3,6 +3,8 @@ import { redirect } from '@sveltejs/kit';
 import type { Handle } from '@sveltejs/kit';
  
 export const handle:Handle = async({ event, resolve })=> {
+    const protectedRoutes:string[] = []
+    const unProtectedRoutes:string[] = [ "/admin/auth", "/admin/api/assets/images" ]
     const session = event.cookies.get("session")
     const pathname = event.url.pathname
     // If session exists in cookies
@@ -20,13 +22,13 @@ export const handle:Handle = async({ event, resolve })=> {
         // If auth did not pass
         // Redirect to login page
         // TODO: Let admin decide what routes are protected by given an array of paths
-        else if(pathname.startsWith("/admin") && pathname!=="/admin/auth"){
+        else if(pathname.startsWith("/admin") && !unProtectedRoutes.includes(pathname)){
             throw redirect(302,"/admin/auth")
         }
     }
     // Else if session do not exists in cookie, redirect to login page
     // TODO: Let admin decide what routes are protected by given an array of paths
-    else if(pathname.startsWith("/admin") && pathname!=="/admin/auth"){
+    else if((pathname.startsWith("/admin") && !unProtectedRoutes.includes(pathname)) || protectedRoutes.includes(pathname)){
         throw redirect(302,"/admin/auth")
     }
     const response = await resolve(event);

@@ -19,7 +19,7 @@
     // UTILITIES
     import { fetchPost, wait } from "$Utilities"
     import { newToast } from "@anthony809/svelte-toasts/index";
-    import Toasts from "$Packages/svelteToasts/Toasts.svelte";
+    import Toasts from "@anthony809/svelte-toasts/Toasts.svelte";
     // ICONS
     import EnvelopeAt from "$Icons/EnvelopeAt.svelte";
     import ShieldLockIcon from "$Icons/ShieldLock.svelte";
