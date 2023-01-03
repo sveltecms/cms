@@ -11,6 +11,7 @@ export const GET:RequestHandler = async({params})=>{
     if(fileExists){
         const file = fs.readFileSync(filePath)
         const response = new Response(file)
+        response.headers.set("Cache-Control","public, max-age=86400")
         response.headers.append("Content-Type",`image/${assetExt}`)
         return response
     }
