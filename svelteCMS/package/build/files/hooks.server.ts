@@ -7,6 +7,7 @@ export const handle:Handle = async({ event, resolve })=> {
     const unProtectedRoutes:string[] = [ "/admin/auth", "/admin/api/assets/images" ]
     const session = event.cookies.get("session")
     const pathname = event.url.pathname
+    const isAnAsset = pathname.includes("/admin/api/assets/")
     // If session exists in cookies
     if(session){
         const auth = await cms.Auth.isAuth(JSON.parse(session!),event.request)
@@ -22,13 +23,13 @@ export const handle:Handle = async({ event, resolve })=> {
         // If auth did not pass
         // Redirect to login page
         // TODO: Let admin decide what routes are protected by given an array of paths
-        else if(pathname.startsWith("/admin") && !unProtectedRoutes.includes(pathname)){
+        else if((pathname.startsWith("/admin") && !unProtectedRoutes.includes(pathname) && !isAnAsset) || protectedRoutes.includes(pathname)){
             throw redirect(302,"/admin/auth")
         }
     }
     // Else if session do not exists in cookie, redirect to login page
     // TODO: Let admin decide what routes are protected by given an array of paths
-    else if((pathname.startsWith("/admin") && !unProtectedRoutes.includes(pathname)) || protectedRoutes.includes(pathname)){
+    else if((pathname.startsWith("/admin") && !unProtectedRoutes.includes(pathname) && !isAnAsset) || protectedRoutes.includes(pathname)){
         throw redirect(302,"/admin/auth")
     }
     const response = await resolve(event);
