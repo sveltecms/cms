@@ -8,7 +8,7 @@
 <div class="table">
     {#each Object.entries(object) as [objectKey,objectValue]}
         {@const valueType = typeof objectValue}
-        {#if objectKey!=="_id"}
+        {#if !objectKey.startsWith("_")}
             <div class="row">
                 <span class="rowName">{objectKey}</span>
                 <span class="rowValue">

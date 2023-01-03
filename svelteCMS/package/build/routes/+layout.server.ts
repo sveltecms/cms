@@ -28,11 +28,22 @@ function makeRoutesTypes(routes:RouteData[]){
     let objectsTypes = ""
     for(const route of routes){
         // Loop elements in route
-        let objectType = `/** Object data for objects inside route:${route.ID} */\nexport type ${capitalize(route.ID)}ObjectData = {\n    _id:import("mongodb").ObjectId\n`
+        let objectType = `/** Object data for objects inside route:${route.ID} */\nexport type ${capitalize(route.ID)}ObjectData = {\n`
         for(const element of route.elements){
             const IDtype = getElementType(element.type)
             objectType+=`    ${element.ID}:${IDtype}\n`
         }
+        // Add MongoDB _id type
+        objectType+=`    _id:import("mongodb").ObjectId\n`
+        // Add status type
+        objectType+=`    _status:import("$Types").StatusData\n`
+        // Add createAt type
+        objectType+=`    _createdAt:number\n`
+        // Add updatedAt type
+        objectType+=`    _updatedAt:number\n`
+        // If routes includes categories or tags, create type for them
+        if(route.includeCategories==="yes") objectType+=`    _categories:import("$Types").CategoryData[]\n`
+        if(route.includeTags==="yes") objectType+=`    _tags:import("$Types").TagData[]\n`
         // Complete object type for current route
         objectType+="}"
         // Add object type to objects type
@@ -43,4 +54,3 @@ function makeRoutesTypes(routes:RouteData[]){
     const typeData = objectsTypes.trimEnd()
     writeFileSync(typePath,typeData)
 }
-

@@ -1,3 +1,6 @@
+<script lang="ts">
+    import type {} from "$Types/dynamically"
+</script>
 <button on:click={()=>location.href = "/admin/auth/logout"}>
     Logout
 </button>

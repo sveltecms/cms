@@ -7,6 +7,8 @@
     let _status:StatusData = "public"
     let _categories:CategoryData[] = []
     let _tags:TagData[] = []
+    let _createdAt:number = Date.now()
+    let _updatedAt:number = Date.now()
     // OTHER VARIABLES
     let checkForErrors:boolean = false
     let loading:boolean = false
@@ -86,6 +88,10 @@
         if(validated){
             // Add status to object
             elements.push({ ID: "_status",name: "Status",type: "_status",value: _status })
+            // Add create at to object
+            elements.push({ ID: "_createdAt",name: "Created at",type: "_createdAt",value: _createdAt })
+            // Add updated at to object
+            elements.push({ ID: "_updatedAt",name: "Updated at",type: "_updatedAt",value: _updatedAt })
             // Add categories and tags to elements
             if(routeData.includeTags==="yes"){
                 elements.push({ ID: "_tags",name: "Tags",type: "_tags",value: _tags })

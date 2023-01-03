@@ -10,3 +10,4 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vscode
 .svelteCMS
+src/routes/admin/_core/types/dynamically.ts
