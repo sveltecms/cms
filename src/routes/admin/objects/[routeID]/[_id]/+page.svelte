@@ -96,6 +96,8 @@
         const validated = validatorErrors.length === 0
         // Send request
         if(validated){
+            // Update updateAt(_updateAt) value
+            elements.forEach(element=>{ if(element.ID==="_updatedAt") element.value=Date.now() })
             // Add status to object
             elements.push({ ID: "_status",name: "Status",type: "_status",value: _status })
             // Add categories and tags to elements
@@ -125,7 +127,7 @@
 
 <Meta {...routeData.meta}/>
 <FileUploader on:select={handleFileSelected} bind:open={showFileUploader}/>
-<PageTitleLink href="/admin/routes" linkText="View routes" goBackSrc="/admin/routes" title="New object"/>
+<PageTitleLink href="/admin/routes" linkText="View routes" goBackSrc={`/admin/objects/${routeData.ID}`} title="New object"/>
 <Content>
     <LeftContent>
         {#each routeData.elements as element}
