@@ -7,7 +7,7 @@ import { writeFileSync } from "fs"
 import type { RouteData } from "$Types"
 import type { LayoutServerLoad } from "./$types"
 
-export const load:LayoutServerLoad = async({locals})=>{
+export const load:LayoutServerLoad = async({locals})=>{    
     // If user is logged in
     if(locals.user){
         const routes = await cms.Fetch.routes({ filter:{},count:svelteCMS.config.routesPerPage })

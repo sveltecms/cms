@@ -1,13 +1,16 @@
 import cms from "$Cms"
+import { DATABASE_NAME } from "$env/static/private"
 import { redirect } from '@sveltejs/kit';
 import type { Handle } from '@sveltejs/kit';
  
 export const handle:Handle = async({ event, resolve })=> {
     const protectedRoutes:string[] = []
     const unProtectedRoutes:string[] = [ "/admin/auth", "/admin/api/assets/images" ]
-    const session = event.cookies.get("session")
+    const sessionIdName = `${DATABASE_NAME}_session`
+    const session = event.cookies.get(sessionIdName)
     const pathname = event.url.pathname
     const isAnAsset = pathname.includes("/admin/api/assets/")
+    event.locals.sessionIdName = sessionIdName
     // If session exists in cookies
     if(session){
         const auth = await cms.Auth.isAuth(JSON.parse(session!),event.request)

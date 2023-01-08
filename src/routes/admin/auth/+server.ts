@@ -6,7 +6,7 @@ import svelteCMS from "$svelteCMS";
 import bcrypt from "bcrypt"
 
 // LOGIN
-export const POST:RequestHandler = async({cookies,request})=> {
+export const POST:RequestHandler = async({cookies,request,locals})=> {
     const usersCollection = db.collection(svelteCMS.collections.users)
     const jsonData:AuthLoginLoad = await request.json()
     const email = jsonData.email
@@ -25,7 +25,8 @@ export const POST:RequestHandler = async({cookies,request})=> {
     }
     // Login user
     const token = crypto.randomUUID()
-    cookies.set("session",JSON.stringify({t:token,u:userDataDB._id.toString()}),{
+    const sessionIdName = locals.sessionIdName
+    cookies.set(sessionIdName,JSON.stringify({t:token,u:userDataDB._id.toString()}),{
         path:"/",
         httpOnly:true,
         sameSite:"strict",
