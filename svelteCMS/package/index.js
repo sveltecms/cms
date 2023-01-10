@@ -135,12 +135,20 @@ function handleDependencies(){
         if(!projectPackageJson['dependencies'].hasOwnProperty(name)){
             projectPackageJson['dependencies'][name] = value
         }
+        // Else make sure if the same version
+        else if(projectPackageJson['dependencies'][name]!==value){
+            projectPackageJson['dependencies'][name] = value
+        }
     }
     // Handle dev dependencies
     for(const dependency of Object.entries(dataJson.devDependencies)){
         const [ name,value ] = dependency
         // If data json dependency do not exists in project dev dependencies, add it
         if(!projectPackageJson['devDependencies'].hasOwnProperty(name)){
+            projectPackageJson['devDependencies'][name] = value
+        }
+        // Else make sure if the same version
+        else if(projectPackageJson['devDependencies'][name]!==value){
             projectPackageJson['devDependencies'][name] = value
         }
     }
@@ -190,10 +198,12 @@ function handleSingleFiles(){
 
 
 async function Main(){
+    const isDatabaseServer = isMongoDB()
+    // IF MONGODB IS NOT INSTALLED IN CURRENT MACHINE
+    if(!isDatabaseServer){
+        colorMe.red("Looks like mongoDB is not installed") ; return 
+    }
     if(NEW_INSTALL){
-        const isDatabaseServer = isMongoDB()
-        // IF MONGODB IS NOT INSTALLED IN CURRENT MACHINE
-        if(!isDatabaseServer) return
         // ASK FOR APP NAME
         const askAppName = await askQuestion("What should we named your app:",APP.name)
         APP['name'] = askAppName.data
