@@ -4,7 +4,7 @@ import type { PageServerLoad } from "./$types"
 
 export const load:PageServerLoad = async ()=>{
     // Get assets count
-    const assets = await cms.Fetch.assets({count:svelteCMS.config.assetsPerPage})
+    const assets = await cms.Fetch.assets({count:svelteCMS.config.assetsPerPage,filter:null})
     const assetsCount = await cms.Fetch.assetsCount()
     // Get routes count
     const routesCount = await cms.Fetch.routesCount()

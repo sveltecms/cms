@@ -69,8 +69,8 @@
     const pageData = {
         appName:svelteCMS.site.name,
         favicon:svelteCMS.site.favicon,
-        title:routeData.meta.title,
-        description:routeData.meta.description,
+        title:data.routeData.meta.title,
+        description:data.routeData.meta.description,
         backdrop:svelteCMS.site.backdrop
     }
 </script>
