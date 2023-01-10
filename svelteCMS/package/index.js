@@ -33,6 +33,12 @@ const colorMe = new class {
     green(data) { return `\x1b[32m${data}\x1b[0m` }
 };
 
+/** Check if mongoDB is installed */
+function isMongoDB(){
+    try{ execSync("mongod --version") ; return true }
+    catch{ return false }
+
+}
 
 /** Create needed default data for svelteCMS */
 async function createDefaultDatabaseData(){
@@ -185,6 +191,9 @@ function handleSingleFiles(){
 
 async function Main(){
     if(NEW_INSTALL){
+        const isDatabaseServer = isMongoDB()
+        // IF MONGODB IS NOT INSTALLED IN CURRENT MACHINE
+        if(!isDatabaseServer) return
         // ASK FOR APP NAME
         const askAppName = await askQuestion("What should we named your app:",APP.name)
         APP['name'] = askAppName.data
