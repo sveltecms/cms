@@ -31,6 +31,7 @@ export default class Fetch {
     /** Find multiple routes */
     async routes(props:FetchRoutesLoad){
         const routesCursor = this.routesCollection.find(props.filter).limit(props.count)
+        routesCursor.sort("_id",props.sort?props.sort==="newFirst"?1:-1:-1)
         // Add skip objects
         if(props.pageNumber){
             const itemsToSkip = props.pageNumber*svelteCMS.config.routesPerPage - svelteCMS.config.routesPerPage
@@ -58,6 +59,7 @@ export default class Fetch {
     async routeObjects(props:FetchRouteObjectsLoad){
         const routeObjectsCollection = this.db.collection(props.routeID)
         const routeObjectsCursor = routeObjectsCollection.find(props.filter).limit(props.count)
+        routeObjectsCursor.sort("_id",props.sort?props.sort==="newFirst"?1:-1:-1)
         // Add skip objects
         if(props.pageNumber){
             const itemsToSkip = props.pageNumber*svelteCMS.config.objectsPerPage - svelteCMS.config.objectsPerPage
@@ -85,6 +87,7 @@ export default class Fetch {
     async assets(props:FetchAssetsLoad){
         const exclude = { path:{$ne:"no-image.jpeg"} }
         const assetsCursor = this.assetsCollection.find({...props.filter,...exclude}).limit(props.count)
+        assetsCursor.sort("_id",props.sort?props.sort==="newFirst"?1:-1:-1)
         // Add skip objects
         if(props.pageNumber){
             const itemsToSkip = props.pageNumber*svelteCMS.config.assetsPerPage - svelteCMS.config.assetsPerPage
@@ -113,6 +116,7 @@ export default class Fetch {
     async users(props:FetchUsersLoad){
         const exclude = { email:{$ne:"root@sveltecms.dev"} }
         const usersCursor = this.usersCollection.find({...props.filter,...exclude}).limit(props.count)
+        usersCursor.sort("_id",props.sort?props.sort==="newFirst"?1:-1:-1)
         // Add skip objects
         if(props.pageNumber){
             const itemsToSkip = props.pageNumber*svelteCMS.config.usersPerPage - svelteCMS.config.usersPerPage
@@ -141,6 +145,7 @@ export default class Fetch {
     /** Find multiple categories */
     async categories(props:FetchCategoriesLoad){
         const categoriesCursor = this.db.collection(`__categories_${props.routeID}`).find(props.filter).limit(props.count)
+        categoriesCursor.sort("_id",props.sort?props.sort==="newFirst"?1:-1:-1)
         // Add skip objects
         if(props.pageNumber){
             const itemsToSkip = props.pageNumber*svelteCMS.config.categoriesPerPage - svelteCMS.config.categoriesPerPage
@@ -168,6 +173,7 @@ export default class Fetch {
     /** Find multiple tags */
     async tags(props:FetchTagsLoad){
         const tagsCursor = this.db.collection(`__tags_${props.routeID}`).find(props.filter).limit(props.count)
+        tagsCursor.sort("_id",props.sort?props.sort==="newFirst"?1:-1:-1)
         // Add skip objects
         if(props.pageNumber){
             const itemsToSkip = props.pageNumber*svelteCMS.config.tagsPerPage - svelteCMS.config.tagsPerPage

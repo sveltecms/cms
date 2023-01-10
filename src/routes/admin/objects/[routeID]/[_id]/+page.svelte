@@ -115,7 +115,6 @@
             if(apiResponse.ok){
                 newToast({ type:"ok",msg:apiResponse.msg })
                 await wait(500)
-                goto(`/admin/objects/${routeData.ID}`)
             }else newToast({ type:"error",msg:apiResponse.msg })
         }
         // Throw error is data was not validated
@@ -186,6 +185,6 @@
                 <Datetime bind:value={element.value}/>
             {/if}
         {/each}
-        <Button text="Update" on:click={publish} bind:loading/>
+        <Button text="Save" on:click={publish} bind:loading/>
     </RightContent>
 </Content>

@@ -10,6 +10,7 @@ export interface FetchRoutesLoad {
     filter:{ _id:ObjectId } | { ID:string } | { title:string } | { [key:string]:any } | {}
     count:number
     pageNumber?:number
+    sort?:"newFirst"|"oldFirst"
 }
 /** Data returned from fetching routes */
 export type FetchRoutesRes = RouteData[]
@@ -26,6 +27,7 @@ export interface FetchRouteObjectsLoad {
     routeID:any
     count:number
     pageNumber?:number
+    sort?:"newFirst"|"oldFirst"
 }
 /** Data returned from fetching route objects */
 export type FetchRouteObjectsRes = any[]
@@ -40,6 +42,7 @@ export interface FetchAssetsLoad {
     filter:{ name:string|RegExp } | null
     count:number
     pageNumber?:number
+    sort?:"newFirst"|"oldFirst"
 }
 /** Data returned from fetching assets */
 export type FetchAssetsRes = AssetData[]
@@ -54,6 +57,7 @@ export interface FetchUsersLoad {
     filter:{ _id:ObjectId } | { email:string } | { [key:string]:any } | {}
     count:number
     pageNumber?:number
+    sort?:"newFirst"|"oldFirst"
 }
 /** Data returned from fetching users */
 export type FetchUsersRes = UserData[]
@@ -69,6 +73,7 @@ export interface FetchCategoriesLoad {
     routeID:any
     count:number
     pageNumber?:number
+    sort?:"newFirst"|"oldFirst"
 }
 /** Data returned from fetching categories */
 export type FetchCategoriesRes = CategoryData[]
@@ -84,6 +89,7 @@ export interface FetchTagsLoad {
     routeID:any
     count:number
     pageNumber?:number
+    sort?:"newFirst"|"oldFirst"
 }
 /** Data returned from fetching tags */
 export type FetchTagsRes = TagData[]

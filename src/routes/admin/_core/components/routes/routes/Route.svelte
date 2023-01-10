@@ -9,7 +9,7 @@
     import TrashIcon from "$Icons/Trash.svelte";
     import CloseIcon from "$Icons/Xmark.svelte"
     import PenIcon from "$Icons/VectorPen.svelte"
-    import ViewIcon from "$Icons/Link.svelte"
+    import ViewIcon from "$Icons/Eye.svelte"
     /** Delete route */
     function handleDeleteRoute(){ dispatcher("delete",route) }
     // Variables
@@ -21,13 +21,13 @@
     <a href="/admin/objects/{route.ID}" class="icon objects" data-label="View {route.ID}" data-sveltekit-preload-data>
         <ViewIcon />
     </a>
+    <a href="/admin/objects/{route.ID}/create" class="btn add" data-sveltekit-preload-data>
+        <PlusIcon />Add object
+    </a>
     <span class="name">
         {route.title}
     </span>
     <div class="actions">
-        <a href="/admin/objects/{route.ID}/create" class="btn" data-sveltekit-preload-data>
-            <PlusIcon />Add object
-        </a>
         <a href="/admin/routes/{route.ID}" class="icon" data-label="Edit {route.ID}" data-sveltekit-preload-data>
             <PenIcon />
         </a>
@@ -73,14 +73,18 @@
         border: 1px solid transparent;
         transition: border 0.2s ease-in-out;
     }
+    .btn.add{
+        margin: 0 10px 0 0;
+    }
     .name{
         flex: 1;
         display: flex;
         align-items: center;
-        font-size: 20px;
-        font-weight: 600;
+        font-size: 25px;
+        font-weight: 300;
         color: var(--textColor);
         fill: var(--textColor);
+        text-transform: capitalize;
     }
     .actions{
         display: flex;
