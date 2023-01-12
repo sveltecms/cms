@@ -7,7 +7,8 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"publish": "cd svelteCMS/package && npm publish"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^1.0.0",
@@ -22,9 +23,10 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@anthony809/svelte-editor": "^0.0.3",
-		"@anthony809/svelte-head": "^0.0.5",
-		"@anthony809/svelte-toasts": "^0.0.1",
+		"@anthony809/svelte-draggable": "^0.0.8",
+		"@anthony809/svelte-editor": "^0.0.4",
+		"@anthony809/svelte-head": "^0.0.6",
+		"@anthony809/svelte-toasts": "^0.0.2",
 		"bcrypt": "^5.1.0",
 		"dotenv": "^16.0.3",
 		"globby": "^13.1.3",
