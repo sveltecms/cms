@@ -22,10 +22,11 @@ for(const line of envFileData.split("\n")){
 const DATABASE_URL = process.env.DATABASE_URL
 const DATABASE_NAME = process.env.DATABASE_NAME
 const dbConnection = new MongoClient(DATABASE_URL)
-const COLLECTIONS = await dbConnection.db(DATABASE_NAME).listCollections({}).toArray()
+const COLLECTIONS = fs.readdirSync(dbFolderPath)
 
 for(const collection of COLLECTIONS){
-    execSync(`mongoexport --uri="${DATABASE_URL}" --db=${DATABASE_NAME}  --collection=${collection.name}  --out=${dbFolderPath}/${collection.name}.json`)
+    const collectionName = collection.slice(0,-5)
+    execSync(`mongoimport --uri="${DATABASE_URL}" --db=${DATABASE_NAME}  --collection=${collectionName}  --file=${dbFolderPath}/${collectionName}.json`)
 }
 
 await dbConnection.close()
