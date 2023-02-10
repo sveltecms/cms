@@ -84,6 +84,8 @@ function handleAssetsFolder(){
     fs.mkdirSync(`${APP.assetsDirPath}/assets/videos`)
     fs.mkdirSync(`${APP.assetsDirPath}/assets/audios`)
     fs.mkdirSync(`${APP.assetsDirPath}/assets/other`)
+    // db folder to export collection
+    fs.mkdirSync(`${APP.assetsDirPath}/db`)
     // Copy default asset
     fs.copyFileSync(`${BUILD_PATH}/images/no-image.jpeg`,`${APP.assetsDirPath}/assets/images/no-image.jpeg`)
 }
@@ -152,6 +154,9 @@ function handleDependencies(){
             projectPackageJson['devDependencies'][name] = value
         }
     }
+    // Add export and import scripts
+    projectPackageJson['scripts']['export'] = "node ./.svelteCMS/export.js"
+    projectPackageJson['scripts']['import'] = "node ./.svelteCMS/import.js"
     // Update project package.json
     fs.writeFileSync(`${CWD}/package.json`,JSON.stringify(projectPackageJson,null,4))
 }
@@ -190,10 +195,16 @@ function handleAlias(){
 function handleSingleFiles(){
     const hooksFilePath = `${BUILD_PATH}/files/hooks.server.ts`
     const appDFilePath = `${BUILD_PATH}/files/app.d.ts`
+    const exportFilePath = `${BUILD_PATH}/files/export.js`
+    const importFilePath = `${BUILD_PATH}/files/import.js`
     const newHooksFilePath = `${CWD}/src/hooks.server.ts`
     const newAppDFilePath = `${CWD}/src/app.d.ts`
+    const newExportFilePath = `${CWD}/.svelteCMS/export.js`
+    const newImportFilePath = `${CWD}/.svelteCMS/import.js`
     fs.copyFileSync(hooksFilePath,newHooksFilePath)
     fs.copyFileSync(appDFilePath,newAppDFilePath)
+    fs.copyFileSync(exportFilePath,newExportFilePath)
+    fs.copyFileSync(importFilePath,newImportFilePath)
 }
 
 

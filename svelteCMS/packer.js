@@ -64,13 +64,17 @@ function createNeededJsonData(){
 function copySingleFiles(){
     const hooksFilePath = `${CWD}/src/hooks.server.ts`
     const appDPath = `${CWD}/src/app.d.ts`
-    const hooksFileData = fs.readFileSync(hooksFilePath).toString()
-    const appDData = fs.readFileSync(appDPath).toString()
+    const exportFilePath = `${CWD}/.svelteCMS/export.js`
+    const importFilePath = `${CWD}/.svelteCMS/import.js`
     // Save files
     const newHooksFilePath = `${BUILD_PATH}/files/hooks.server.ts`
     const newAppDData = `${BUILD_PATH}/files/app.d.ts`
-    fs.writeFileSync(newHooksFilePath,hooksFileData)
-    fs.writeFileSync(newAppDData,appDData)
+    const newExportFilePath = `${BUILD_PATH}/files/export.js`
+    const newImportFilePath = `${BUILD_PATH}/files/import.js`
+    fs.copyFileSync(hooksFilePath,newHooksFilePath)
+    fs.copyFileSync(appDPath,newAppDData)
+    fs.copyFileSync(exportFilePath,newExportFilePath)
+    fs.copyFileSync(importFilePath,newImportFilePath)
 }
 
 async function Main(){
