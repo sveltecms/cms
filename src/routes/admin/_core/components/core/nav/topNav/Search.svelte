@@ -1,12 +1,27 @@
 <script lang="ts">
+    import { SEARCH } from "$Stores";
     import SearchIcon from "$Icons/Search.svelte";
-    // Variables
-    let searchValue:string
+    import { page } from "$app/stores";
+    import { goto } from "$app/navigation";
+    $: routeData = $page.route.id?.split("/admin")[1].trim() as String
+    $: routeID = routeData.includes("[") ? routeData.split("/")[1].split("/[")[0] : routeData ? routeData.split("/")[1] : ""
+    $: placeholder = `Search ${routeID}...`
+    $: searchQuery = $SEARCH.query
+    function handleInputClick(e:any){
+        if(e.key==="Enter"){
+            handleSearchClick()
+        }
+    }
+    function handleSearchClick(){
+        if(routeID==="assets" && $SEARCH.query.trim()){
+            goto(`/admin/assets?q=${searchQuery}`,{ replaceState:false,keepFocus:true })
+        }
+    }
 </script>
 
 <div class="searchWrap">
-    <input type="text" class="searchInput" placeholder="Search..." bind:value={searchValue}>
-    <div class="searchIcon" data-label="Search">
+    <input type="text" class="searchInput" {placeholder} bind:value={$SEARCH.query} on:keypress={handleInputClick}>
+    <div class="searchIcon" data-label="Search" on:click={handleSearchClick}>
         <SearchIcon/>
     </div>
 </div>
