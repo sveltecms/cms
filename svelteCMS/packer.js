@@ -64,8 +64,8 @@ function createNeededJsonData(){
 function copySingleFiles(){
     const hooksFilePath = `${CWD}/src/hooks.server.ts`
     const appDPath = `${CWD}/src/app.d.ts`
-    const exportFilePath = `${CWD}/.svelteCMS/export.js`
-    const importFilePath = `${CWD}/.svelteCMS/import.js`
+    const exportFilePath = `${CWD}/svelteCMS/files/export.js`
+    const importFilePath = `${CWD}/svelteCMS/files/import.js`
     // Save files
     const newHooksFilePath = `${BUILD_PATH}/files/hooks.server.ts`
     const newAppDData = `${BUILD_PATH}/files/app.d.ts`

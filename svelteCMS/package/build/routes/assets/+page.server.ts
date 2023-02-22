@@ -12,7 +12,7 @@ export const load:PageServerLoad = async({url})=> {
         // Set server store
         ASSETS.set(assets)
         // Return assets
-        return { assets:assets } 
+        return { assets:assets,query } 
     }
-    return { assets:[] } 
+    return { assets:[],query } 
 }

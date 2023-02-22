@@ -20,21 +20,17 @@
     beforeNavigate(()=>PREV_PATH.set(location.pathname))
 </script>
 
-{#if data.user}
-    <Toasts />
-    <div class="app">
-        <MainNav />
-        <div class="content">
-            <TopNav />
-            <main class="mainContent">
-                <slot />
-                <Footer />
-            </main>
-        </div>
+<Toasts />
+<div class="app">
+    <MainNav />
+    <div class="content">
+        <TopNav />
+        <main class="mainContent">
+            <slot />
+            <Footer />
+        </main>
     </div>
-{:else}
-    <slot />
-{/if}
+</div>
 
 <style>
     .app{

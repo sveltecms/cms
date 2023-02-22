@@ -7,7 +7,6 @@
     $: routeID = routeData.includes("[") ? routeData.split("/")[1].split("/[")[0] : routeData ? routeData.split("/")[1] : "routes"
     $: placeholder = `Search ${routeID}...`
     $: searchQuery = $SEARCH.query
-    console.log($page)
     /** Click search when click enter key */
     function handleInputClick(e:any){
         if(e.key==="Enter"){
@@ -21,6 +20,10 @@
         }
         else if(routeID==="routes" && $SEARCH.query.trim()){
             goto(`/admin/routes?q=${searchQuery}`,{ replaceState:false,keepFocus:true })
+        }
+        else if(routeID==="objects" && $SEARCH.query.trim()){
+            const objectsRouteID = $page.url.pathname.split("/").splice(-1)[0].trim()
+            goto(`/admin/objects/${objectsRouteID}?q=${searchQuery}`,{ replaceState:false,keepFocus:true })
         }
         else if(routeID==="users" && $SEARCH.query.trim()){
             goto(`/admin/users?q=${searchQuery}`,{ replaceState:false,keepFocus:true })
