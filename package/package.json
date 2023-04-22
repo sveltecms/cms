@@ -1,0 +1,36 @@
+{
+    "name": "sveltejscms",
+    "version": "0.18.0",
+    "type": "module",
+    "main": "./build/main.js",
+    "bin": "./build/main.js",
+    "files": [
+        "./build",
+        "./files",
+        "./README.md"
+    ],
+    "repository": {
+        "url": "https://github.com/sveltecms"
+    },
+    "homepage": "https://sveltecms.dev",
+    "description": "svelteCMS, all in one cms for your svelte kit projects.",
+    "keywords": [
+        "svelte",
+        "sveltekit",
+        "cms"
+    ],
+    "author": "anthony809",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt": "^5.1.0",
+        "cloudinary": "^1.36.1",
+        "fs-extra": "^11.1.1",
+        "inquirer": "^9.1.5",
+        "mongodb": "^5.3.0"
+    },
+    "devDependencies": {
+        "@types/bcrypt": "^5.0.0",
+        "@types/fs-extra": "^11.0.1",
+        "@types/inquirer": "^9.0.3"
+    }
+}
