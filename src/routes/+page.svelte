@@ -1,20 +1,11 @@
 <script lang="ts">
-    import type {} from "$Types/dynamically"
+    import type { PagesData } from "cms/types/dynamically"
 </script>
-<button on:click={()=>location.href = "/admin/auth/logout"}>
-    Logout
-</button>
 
-<style>
-    button{
-        margin: 10px;
-        border: none;
-        cursor: pointer;
-        border-radius: 2px;
-        background-color: blueviolet;
-        color: white;
-        font-size: 14px;
-        font-weight: 600;
-        padding: 5px 10px;
-    }
+<div class="page">
+    <h1>Welcome to SvelteKit</h1>
+    <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+</div>
+
+<style lang="scss">
 </style>
