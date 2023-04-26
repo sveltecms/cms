@@ -7,8 +7,7 @@ const config = {
 	kit: {
 		adapter: adapter(),
         alias:{
-            "cms/*":"src/cms/*",
-            "client/*":"src/client/*",
+            "cms/*":"src/cms/*"
         }
 	}
 };

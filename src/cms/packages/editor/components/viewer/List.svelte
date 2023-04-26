@@ -16,13 +16,3 @@
         {/each}
     </ul>
 {/if}
-
-<style>
-    ol,ul{
-        color: var(--textColor);
-        font-size: var(--textSize);
-        margin-left: 30px;
-        margin-bottom: 10px;
-    }
-    li{ margin-bottom: 5px; }
-</style>
