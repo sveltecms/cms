@@ -43,7 +43,7 @@ if (isNewInstallation) {
     // Handle .env file
     handleEnv(installData.APP);
     // Copy files
-    copyFiles();
+    await copyFiles();
     // Run npm commands
     Utils.log.normal("Running npm run for needed dependencies");
     execSync(defaults.runDependencies);
@@ -58,8 +58,8 @@ if (isNewInstallation) {
 // Run update
 else {
     // Copy files
-    copyFiles();
-    // Run npms commands
+    await copyFiles();
+    // Run npm commands
     Utils.log.normal("Running npm run for needed dependencies");
     execSync("npm install");
     execSync(defaults.runDependencies);
