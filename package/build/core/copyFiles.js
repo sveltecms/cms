@@ -15,8 +15,10 @@ export default async function copyFileSyncFunc() {
     const adminPath = `${packageDirPath}/files/admin`;
     const adminPathProject = `${projectSrcPath}/routes/admin`;
     // Remove old folders
-    await fs.remove(cmsPath);
-    await fs.remove(cmsPathProject);
+    if (fs.existsSync(cmsPathProject))
+        await fs.remove(cmsPathProject);
+    if (fs.existsSync(adminPathProject))
+        await fs.remove(adminPathProject);
     // Copy folders
     fs.copySync(cmsPath, cmsPathProject);
     fs.copySync(adminPath, adminPathProject);
