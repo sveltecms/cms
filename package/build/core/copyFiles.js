@@ -46,17 +46,17 @@ export default function copyFileSyncFunc() {
         const layoutByCms = layoutData.includes('$page.url.pathname.startsWith("/admin")');
         // if layout was not created by cms, create a new custom layout
         if (!layoutByCms) {
-            fs.writeFileSync(`${projectSrcPath}/routes/AppLayout.svelte`, layoutData);
-            Utils.log.ok("src/routes/AppLayout.svelte was created");
+            fs.writeFileSync(`${projectSrcPath}/routes/Layout.svelte`, layoutData);
+            Utils.log.ok("src/routes/Layout.svelte was created");
             // update project layout
             fs.copySync(`${packageDirPath}/files/+layout.svelte`, `${projectSrcPath}/routes/+layout.svelte`);
             Utils.log.ok("src/routes/+layout.svelte was updated");
         }
     }
-    // else create AppLayout.svelte and copy +layout.svelte if it do not exists
-    else if (!fs.existsSync(`${projectSrcPath}/routes/AppLayout.svelte`)) {
-        fs.writeFileSync(`${projectSrcPath}/routes/AppLayout.svelte`, "<slot />");
-        Utils.log.ok("src/routes/AppLayout.svelte was created");
+    // else create Layout.svelte and copy +layout.svelte if it do not exists
+    else if (!fs.existsSync(`${projectSrcPath}/routes/Layout.svelte`)) {
+        fs.writeFileSync(`${projectSrcPath}/routes/Layout.svelte`, "<slot />");
+        Utils.log.ok("src/routes/Layout.svelte was created");
         fs.copySync(`${packageDirPath}/files/+layout.svelte`, `${projectSrcPath}/routes/+layout.svelte`);
         Utils.log.ok("src/routes/+layout.svelte was updated");
     }

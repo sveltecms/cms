@@ -5,7 +5,7 @@ export default function install(): Promise<{
         assetID: any;
         src: string;
         title: string;
-        type: "image" | "video" | "raw" | "auto";
+        type: "auto" | "raw" | "image" | "video";
         extension: string;
     };
     APP: {

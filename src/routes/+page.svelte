@@ -1,11 +1,15 @@
-<script lang="ts">
-    import type { PagesData } from "cms/types/dynamically"
+<script>
+    import { cardsData } from "client/data";
+    import Cards from "client/components/cards/Cards.svelte";
+    import PageTitle from "client/components/PageTitle.svelte";
+    import Terminal from "client/components/Terminal.svelte";
+    import HomeHero from "client/components/HomeHero.svelte";
+    // cms comps and utils
+    import MetaData from "cms/components/shared/MetaData.svelte"
 </script>
 
-<div class="page">
-    <h1>Welcome to SvelteKit</h1>
-    <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-</div>
-
-<style lang="scss">
-</style>
+<MetaData />
+<HomeHero />
+<Cards data={cardsData}/>
+<PageTitle title="Add to a svelteKit project"/>
+<Terminal>npx sveltejscms@latest</Terminal>
