@@ -47,7 +47,7 @@ if(isNewInstallation){
     handleEnv(installData.APP)
     // Copy files
     copyFiles()
-    // Run npms commands
+    // Run npm commands
     Utils.log.normal("Running npm run for needed dependencies")
     execSync(defaults.runDependencies)
     Utils.log.normal("Running npm run for needed dev dependencies")

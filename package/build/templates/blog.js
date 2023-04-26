@@ -45,6 +45,7 @@ const blogsElements = [
     { title: "Title", ID: "title", type: "input", value: "" },
     { title: "Slug", ID: "slug", type: "slug", value: "" },
     { title: "View count", ID: "views", type: "inputNumber", value: 1 },
+    { title: "Content", ID: "content", type: "content", value: "" },
     // Linked routes
     { title: "Author", ID: "author", type: "linkToRoute", value: [], linkTo: "authors", linkedSearchableKey: "email" },
     { title: "Categories", ID: "categories", type: "linkToRoute", value: [], linkTo: "categories", linkedSearchableKey: "slug" },

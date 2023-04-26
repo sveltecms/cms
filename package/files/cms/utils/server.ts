@@ -85,13 +85,13 @@ export default new class Utils{
         for(const route of routes){
             const typeName = this.capitalize(route.ID)+"Data"
             const typeName2 = this.capitalize(route.ID)+"Projection"
-            let type:string = `//TYPE:${typeName}:start\nexport type ${typeName} = {`
+            let type:string = `//TYPE:${typeName}:start\nexport type ${typeName} = {\n    _id:any`
             let projectionType:string = `//PROJECTION:${typeName}:start\nexport type ${typeName2} = {`
             const elements = route.elements
             // Loop all elements and get its types
             for(const element of elements){
                 // projection
-                if(["content","linkToRoute","asset","assets"].includes(element.type)){ projectionType+=`\n    ${element.ID}?:{[key:string]:boolean | {[key:string]:any}}` }
+                if(["content","linkToRoute","asset","assets"].includes(element.type)){ projectionType+=`\n    ${element.ID}?:{[key:string]:boolean | {[key:string]:any}} | boolean` }
                 else { projectionType+=`\n    ${element.ID}?:boolean` }
                 // string
                 if(["slug","input","textArea"].includes(element.type)){ type+=`\n    ${element.ID}:string` }
