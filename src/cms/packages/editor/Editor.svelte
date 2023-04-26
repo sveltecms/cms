@@ -13,7 +13,7 @@
         if(ready){
             const editorData = await EditorJs.save()
             data = editorData
-            // console.clear() // Remove message from editor js
+            console.clear() // Remove message from editor js
         }
     }
 

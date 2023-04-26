@@ -5,7 +5,7 @@ import { dirname } from "path"
 import type { CloudinaryConfig } from "../utils.js"
 import type { AssetData, UserData } from "../types/index.js"
 const packageDirPath = `${dirname(new URL(import.meta.url).pathname)}`.split("/build")[0]
-const runDependencies = `npm install bcrypt cloudinary date-fns dotenv mongodb slugify`
+const runDependencies = `npm install bcrypt cloudinary date-fns dotenv mongodb slugify highlight.js`
 const runDevDependencies = `npm install sass -D`
 
 /** App information needed to install cms */

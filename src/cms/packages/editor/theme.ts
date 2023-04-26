@@ -1,58 +1,38 @@
-import { writable } from "svelte/store"
-
-const config = writable({
-    // Colors
-    pColor:"#dcdcdc",
-    h1Color:"#dcdcdc",
-    h2Color:"#dcdcdc",
-    h3Color:"#dcdcdc",
-    h4Color:"#dcdcdc",
-    h5Color:"#dcdcdc",
-    h6Color:"#dcdcdc",
-    // Sizes
-    pSize:"15px",
-    h1Size:"40px",
-    h2Size:"32px",
-    h3Size:"26px",
-    h4Size:"20px",
-    h5Size:"20px",
-    h6Size:"20px",
-    // Weight
-    pWeight:"200",
-    h1Weight:"400",
-    h2Weight:"400",
-    h3Weight:"400",
-    h4Weight:"400",
-    h5Weight:"400",
-    h6Weight:"400",
-    // Other
-    textWeight:"200",
-    textSize:"15px",
-    textColor:"#dcdcdc",
-    linkColor:"#066a9b",
-    // Code
-    inlineCodeWeight:"100",
-    inlineCodeSize:"12px",
-    inlineCodeColor:"#fff",
-    inlineCodeBg:"rgba(0,0,0,.4)",
-    codeColor:"#80cfee",
-    codeSize:"15px",
-    codeWeight:"200",
-    codeBg:"#12151b",
-    codeKeyColor:"#b372a8",
-    codeCommentColor:"#538b46",
-    codeStringColor:"#B58672",
-    codeFuncColor:"#dbdba6",
-})
-
-
-export function theme(){
+const config = {
+    // Dark theme
+    dark:{
+        color:{
+            bg:"#12181b",
+            color:"#e0e0e0",
+            codeKeyColor:"#b372a8",
+            codeCommentColor:"#538b46",
+            codeStringColor:"#B58672",
+            codeFuncColor:"#dbdba6",
+        }
+    },
+    // Light theme
+    light:{
+        color:{
+            bg:"#fbfbfb",
+            color:"#5f5f5f",
+            codeKeyColor:"#b372a8",
+            codeCommentColor:"#538b46",
+            codeStringColor:"#B58672",
+            codeFuncColor:"#b9b921",
+        }
+    },
+}
+export function theme(theme:"dark" | "light"){
     return `
     <style>
+        .cmsEditor pre{
+            background-color:${config[theme]['color']['bg']};
+            color:${config[theme]['color']['color']};
+        }
         pre code.hljs {
             display: block;
             overflow-x: auto;
-            padding: 1em
+            padding: 1em;
         }
         code.hljs {
             padding: 3px 5px
@@ -68,11 +48,11 @@ export function theme(){
         .hljs-template-variable,
         .hljs-type,
         .hljs-variable.language_ {
-            color: var(--codeKeyColor)
+            color: ${config[theme]['color']['codeKeyColor']}
         }
         .hljs-title,
         .hljs-title.function_ {
-            color: var(--codeFuncColor)
+            color: ${config[theme]['color']['codeFuncColor']}
         }
         .hljs-title.class_,
         .hljs-title.class_.inherited__ {
@@ -93,11 +73,11 @@ export function theme(){
         .hljs-meta .hljs-string,
         .hljs-regexp,
         .hljs-string {
-            color: var(--codeStringColor)
+            color: ${config[theme]['color']['codeStringColor']}
         }
         .hljs-built_in,
         .hljs-symbol {
-            color: var(--codeFuncColor)
+            color: ${config[theme]['color']['codeFuncColor']}
         }
         .hljs-built_in{
             color: #47cead
@@ -105,7 +85,7 @@ export function theme(){
         .hljs-code,
         .hljs-comment,
         .hljs-formula {
-            color: var(--codeCommentColor)
+            color: ${config[theme]['color']['codeCommentColor']}
         }
 
         .hljs-name,
@@ -150,4 +130,3 @@ export function theme(){
     </style>
     `
 }
-export default config

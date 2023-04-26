@@ -3,8 +3,12 @@
     import hljs from "highlight.js/lib/common"
     /** Copy code to clipboard*/
     async function copyToClipboard() {
+        btnText = "copied"
         await navigator.clipboard.writeText(cleanText)
+        // Set button text back to copy after 2 seconds
+        setTimeout(()=>btnText="Copy",2000)
     }
+    let btnText = "copy"
     let cleanText = text.replace(/```\S+/g, '').trimStart()
     let lang = text.includes("```") ? text.trim().split("```")[1].split(" ")[0].trim() : ""
     let htmlCode = hljs.highlight(cleanText,{ language:lang||"html" }).value
@@ -12,27 +16,13 @@
 
 <pre>
     <code class="language-{lang}">{@html htmlCode}</code>
-    <span class="copy" on:click={copyToClipboard} on:keypress={copyToClipboard}>copy</span>
+    <span class="copy" on:click={copyToClipboard} on:keypress={copyToClipboard}>{btnText}</span>
 </pre>
 
 <style>
-    pre{
-        background-color: var(--codeBg);
-        color: var(--codeColor);
-        font-size: var(--codeSize);
-        font-weight: var(--codeWeight);
-        overflow: hidden;
-        margin-bottom: 10px;
-        border-radius: 5px;
-        padding: 10px;
-        display: flex;
-        align-items: center;
-        position: relative;
-        line-height: 20px;
-    }
     .copy{
-        background-color: var(--buttonBg);
-        color: var(--buttonColor);
+        background-color: #333638;
+        color: white;
         cursor: pointer; 
         position: absolute;
         top: 0;

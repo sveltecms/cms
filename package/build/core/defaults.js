@@ -3,7 +3,7 @@ import { hash as bcryptHash } from "bcrypt";
 import Utils from "../utils.js";
 import { dirname } from "path";
 const packageDirPath = `${dirname(new URL(import.meta.url).pathname)}`.split("/build")[0];
-const runDependencies = `npm install bcrypt cloudinary date-fns dotenv mongodb slugify`;
+const runDependencies = `npm install bcrypt cloudinary date-fns dotenv mongodb slugify highlight.js`;
 const runDevDependencies = `npm install sass -D`;
 /** App information needed to install cms */
 const APP = {
