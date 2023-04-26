@@ -62,7 +62,7 @@ if(isNewInstallation){
 else{
     // Copy files
     copyFiles()
-    // Run npms commands
+    // Run npm commands
     Utils.log.normal("Running npm run for needed dependencies")
     execSync("npm install")
     execSync(defaults.runDependencies)
