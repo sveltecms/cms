@@ -16,6 +16,12 @@ const hookFuncs:HookFuncs = {
         user:demoFunc,
         asset:demoFunc,
         setting:demoFunc
+    },
+    beforeDeleting : {
+        route:demoFunc,
+        object:demoFunc,
+        user:demoFunc,
+        asset:demoFunc,
     }
 }
 export default hookFuncs

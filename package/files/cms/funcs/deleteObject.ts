@@ -1,9 +1,20 @@
 import { ObjectId } from "mongodb"
+import customFuncs from "../../cms.hooks"
 import type { Db } from "mongodb"
 import type { RequestEvent,DeleteObjectFunc } from "."
 import type { LinkedRouteData } from "cms/types"
 
-export default async function handleFunc(db:Db,event:RequestEvent,funcInputData:any,json:Function) {
+export default async function handleFunc(db:Db,event:RequestEvent,funcInputData:DeleteObjectFunc['input'],json:Function) {
+    // run user hook function
+    const hookFuncResponse = await customFuncs.beforeDeleting.object(db,funcInputData.data)
+    if(!hookFuncResponse.ok){
+        const response:DeleteObjectFunc['output'] = {
+            ok:false,
+            msg:hookFuncResponse.msg
+        }
+        return json(response)
+    }
+    // Run code
     const inputData:DeleteObjectFunc['input'] = funcInputData
     const funcData = inputData.data
     // check if route object exists

@@ -1,10 +1,21 @@
 import Utils from "cms/utils/server"
 import { ObjectId } from "mongodb"
+import customFuncs from "../../cms.hooks"
 import type { Db } from "mongodb"
 import type { RequestEvent,DeleteAssetFunc } from "."
 import type { AssetData, LinkedAssetData } from "cms/types"
 
-export default async function handleFunc(db:Db,event:RequestEvent,funcInputData:any,json:Function) {
+export default async function handleFunc(db:Db,event:RequestEvent,funcInputData:DeleteAssetFunc['input'],json:Function) {
+    // run user hook function
+    const hookFuncResponse = await customFuncs.beforeDeleting.asset(db,funcInputData.data)
+    if(!hookFuncResponse.ok){
+        const response:DeleteAssetFunc['output'] = {
+            ok:false,
+            msg:hookFuncResponse.msg
+        }
+        return json(response)
+    }
+    // Run code
     const inputData:DeleteAssetFunc['input'] = funcInputData
     const funcData = inputData.data
     let response:DeleteAssetFunc['output']
