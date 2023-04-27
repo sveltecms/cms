@@ -24,6 +24,10 @@ export default async function copyFileSyncFunc() {
     fs.copySync(adminPath, adminPathProject);
     // Copy single files
     fs.copySync(`${packageDirPath}/files/app.d.ts`, `${projectSrcPath}/app.d.ts`);
+    // Check if cms.hooks folder exists
+    const cmsHooksFolderExists = fs.existsSync(`${projectSrcPath}/cms.hooks`);
+    if (!cmsHooksFolderExists)
+        fs.copySync(`${packageDirPath}/files/cms.hooks`, `${projectSrcPath}/cms.hooks`);
     // Check if project contains hooks.server.ts
     const hooksExists = fs.existsSync(`${projectSrcPath}/hooks.server.ts`);
     if (hooksExists) {
