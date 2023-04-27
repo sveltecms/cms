@@ -1,9 +1,9 @@
-import db from "cms/lib/db.server"
 import { ObjectId } from "mongodb"
+import type { Db } from "mongodb"
 import type { RequestEvent,DeleteObjectFunc } from "."
 import type { LinkedRouteData } from "cms/types"
 
-export default async function handleFunc(event:RequestEvent,funcInputData:any,json:Function) {
+export default async function handleFunc(db:Db,event:RequestEvent,funcInputData:any,json:Function) {
     const inputData:DeleteObjectFunc['input'] = funcInputData
     const funcData = inputData.data
     // check if route object exists
@@ -27,7 +27,7 @@ export default async function handleFunc(event:RequestEvent,funcInputData:any,js
             data:funcData.object
         }
         // handle object deletion
-        handleObjectDeletion(funcData.routeID,funcData.object._id)
+        handleObjectDeletion(db,funcData.routeID,funcData.object._id)
         return json(response)
     }
     // else something went wrong
@@ -39,7 +39,7 @@ export default async function handleFunc(event:RequestEvent,funcInputData:any,js
 }
 
 /** Remove object in routes objects where it includes current deleted object as a value */
-async function handleObjectDeletion(routeID:string,objectID:string) {
+async function handleObjectDeletion(db:Db,routeID:string,objectID:string) {
     const linkedRoutesCol = db.collection("_linkedRoutes")
     const filter = { toRouteID:routeID }
     /** All routes linked to current route object element */

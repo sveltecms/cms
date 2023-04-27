@@ -1,10 +1,10 @@
 import Utils from "cms/utils/server"
-import db from "cms/lib/db.server"
-import type { RequestEvent,DeleteAssetFunc } from "."
 import { ObjectId } from "mongodb"
+import type { Db } from "mongodb"
+import type { RequestEvent,DeleteAssetFunc } from "."
 import type { AssetData, LinkedAssetData } from "cms/types"
 
-export default async function handleFunc(event:RequestEvent,funcInputData:any,json:Function) {
+export default async function handleFunc(db:Db,event:RequestEvent,funcInputData:any,json:Function) {
     const inputData:DeleteAssetFunc['input'] = funcInputData
     const funcData = inputData.data
     let response:DeleteAssetFunc['output']
@@ -20,7 +20,7 @@ export default async function handleFunc(event:RequestEvent,funcInputData:any,js
             data:funcData
         }
         // handle asset deleted
-        handleAssetDeletion(funcData)
+        handleAssetDeletion(db,funcData)
         return json(response)
     }
     // return error
@@ -32,7 +32,7 @@ export default async function handleFunc(event:RequestEvent,funcInputData:any,js
 }
 
 /** Remove deleted asset from any linked object */
-async function handleAssetDeletion(inputData:DeleteAssetFunc['input']['data']) {
+async function handleAssetDeletion(db:Db,inputData:DeleteAssetFunc['input']['data']) {
     // get default asset
     const assetFilter = { _id:new ObjectId("000000000000000000000000") }
     const defaultAsset = await db.collection("_assets").findOne(assetFilter) as AssetData

@@ -16,8 +16,10 @@ function copyFiles(){
     // Copy folders to cms folder path
     const cmsFolderPath = `${CWD}/src/cms`
     const routesFolderPath = `${CWD}/src/routes/admin`
+    const cmsHooksFolderPath = `${CWD}/src/cms.hooks`
     fs.copySync(cmsFolderPath,`${FILES_DIR_PATH}/cms`)
     fs.copySync(routesFolderPath,`${FILES_DIR_PATH}/admin`)
+    fs.copySync(cmsHooksFolderPath,`${FILES_DIR_PATH}/cms.hooks`)
     // Copy default image
     fs.copySync(`${CWD}/static/default-image.jpeg`,`${FILES_DIR_PATH}/default-image.jpeg`)
     // Copy app.d.ts file

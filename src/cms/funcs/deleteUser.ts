@@ -1,9 +1,9 @@
-import db from "cms/lib/db.server"
 import { ObjectId } from "mongodb"
+import type { Db } from "mongodb"
 import type { RequestEvent,DeleteUserFunc } from "."
 
 // TODO: update asset on any linked data
-export default async function handleFunc(event:RequestEvent,funcInputData:any,json:Function) {
+export default async function handleFunc(db:Db,event:RequestEvent,funcInputData:any,json:Function) {
     const inputData:DeleteUserFunc['input'] = funcInputData
     const funcData = inputData.data
     // check if user with this email exists
