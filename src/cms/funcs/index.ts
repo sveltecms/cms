@@ -4,7 +4,7 @@ import type { ApiFuncData,App,AssetData,ElementData,RouteData,RouteLoad,RouteObj
 /** Api function for route: /<cms-path>/settings/+server.ts */
 export type ApiFunc = UpdateSettingFunc | UploadFileFunc | UpdateUserFunc | UpdateAssetFunc | DeleteAssetFunc 
 | SearchAssetsFunc | CreateUserFunc | DeleteUserFunc | CreateRouteFunc | UpdateRouteFunc | DeleteRouteFunc
-| CreateObjectFunc | DeleteObjectFunc | UpdateObjectFunc | GetRoutesFunc | SearchObjectsFunc | UploadUrlFileFunc
+| CreateObjectFunc | DeleteObjectFunc | UpdateObjectFunc | GetRoutesFunc | SearchObjectsFunc | UploadUrlFileFunc | UpdatePasswordFunc
 
 /** Update app/user settings : /<cms-path>/settings */
 export type UpdateSettingFunc = ApiFuncData<"updateSettings",App,App>
@@ -56,3 +56,6 @@ export type SearchObjectsFunc = ApiFuncData<"searchObjects",{filter:{key:string,
 
 /** Upload url file */
 export type UploadUrlFileFunc = ApiFuncData<"uploadUrlFile",{ url:string },AssetData>
+
+/** Update password */
+export type UpdatePasswordFunc = ApiFuncData<"updatePassword",{ currentPassword:string,newPassword:string },null>
