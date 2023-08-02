@@ -24,7 +24,8 @@
     /** Send custom event */
     async function selectAsset(e:any){
         const asset:AssetData = e.detail
-        dispatch("selectAsset",asset)
+        const _id = typeof asset._id !== "string" ? asset._id.toString() : asset._id
+        dispatch("selectAsset",{...asset,_id})
         resetAll()
         // close file explorer
         open = false
